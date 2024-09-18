@@ -15,9 +15,9 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsEnum(UserStatus)
-  readonly status: UserStatus;
+  readonly status?: UserStatus;
 
   @IsOptional()
   @Length(0, 30)
-  readonly name: string;
+  readonly name?: string;
 }

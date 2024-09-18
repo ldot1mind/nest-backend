@@ -14,7 +14,6 @@ import { IpAddress } from './decorators/ipAddress.decorator';
 import { Public } from './decorators/public.decorator';
 import { UserAgent } from './decorators/user-agent.decorator';
 import { User } from './decorators/user.decorator';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -47,13 +46,13 @@ export class AuthController {
     return this.authService.getProfile(userId);
   }
 
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard)
-  @Post('change-password')
-  changePassword(
-    @User('id') userId: string,
-    @Body() changePasswordDto: ChangePasswordDto
-  ) {
-    return this.authService.changePassword(userId, changePasswordDto);
-  }
+  // @HttpCode(HttpStatus.OK)
+  // @UseGuards(JwtAuthGuard)
+  // @Post('change-password')
+  // changePassword(
+  //   @User('id') userId: string,
+  //   @Body() changePasswordDto: ChangePasswordDto
+  // ) {
+  //   return this.authService.changePassword(userId, changePasswordDto);
+  // }
 }

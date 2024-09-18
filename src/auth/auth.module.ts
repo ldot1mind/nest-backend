@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  forwardRef,
+  MiddlewareConsumer,
+  Module,
+  NestModule
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
@@ -15,12 +20,14 @@ import { LoginValidationMiddleware } from './middlewares/login-validation.middle
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { SessionService } from 'session/session.service';
+import { UsersModule } from 'users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Session]),
     JwtModule.registerAsync(jwtConfig.asProvider()),
-    ConfigModule.forFeature(jwtConfig)
+    ConfigModule.forFeature(jwtConfig),
+    forwardRef(() => UsersModule)
   ],
   controllers: [AuthController],
   providers: [

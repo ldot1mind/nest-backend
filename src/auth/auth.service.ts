@@ -1,38 +1,38 @@
 import {
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CustomUser } from 'common/interfaces/custom-request.interface';
 import { Device } from 'common/interfaces/device.interface';
 import { SessionService } from 'session/session.service';
-import { Repository } from 'typeorm';
 import { User } from 'users/entities/user.entity';
 import { JwtPayload } from './../common/interfaces/jwt-payload.interface';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { HashingService } from './hashing/hashing.service';
+import { UsersService } from 'users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly hashingService: HashingService,
     private readonly sessionService: SessionService,
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
+
     private readonly jwtService: JwtService
   ) {}
 
   async register(registerUserDto: RegisterUserDto) {
     try {
       // Create user
-      const user = await this.userRepository.create({
-        ...registerUserDto
-      });
+      const user = await this.usersService.create({ ...registerUserDto });
 
-      // Save and return it
-      return await this.userRepository.save(user);
+      // return it
+      return user;
     } catch (error) {
       throw error;
     }
@@ -55,42 +55,39 @@ export class AuthService {
 
   async getProfile(id: string) {
     // Find user
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.usersService.findOneById(id);
 
     // Remove id form user object and return it
     delete user.id;
     return user;
   }
 
-  async changePassword(
-    id: string,
-    { currentPassword, newPassword }: ChangePasswordDto
-  ) {
-    const user = await this.userRepository.findOne({
-      where: { id },
-      select: ['password']
-    });
+  // async changePassword(
+  //   id: string,
+  //   { currentPassword, newPassword }: ChangePasswordDto
+  // ) {
+  //   const user = await this.usersService.findOne({ id }, ['password']);
 
-    // Check valid password
-    const isMatch = await this.hashingService.compare(
-      currentPassword,
-      user.password
-    );
+  //   // Check valid password
+  //   const isMatch = await this.hashingService.compare(
+  //     currentPassword,
+  //     user.password
+  //   );
 
-    // If invalid password, handle it
-    if (!isMatch) throw new UnauthorizedException('invalid password');
+  //   // If invalid password, handle it
+  //   if (!isMatch) throw new UnauthorizedException('invalid password');
 
-    // If the new password is different from the current password
-    if (currentPassword !== newPassword)
-      await this.userRepository.update({ id }, { password: newPassword });
-  }
+  //   // If the new password is different from the current password
+  //   if (currentPassword !== newPassword)
+  //     await this.userRepository.update({ id }, { password: newPassword });
+  // }
 
   async validateLocal(email: string, password: string) {
     // Find user with email or username
-    const user = await this.userRepository.findOne({
-      where: [{ email }, { username: email }],
-      select: ['id', 'role', 'status', 'password']
-    });
+    const user = await this.usersService.findOne(
+      [{ email }, { username: email }],
+      ['id', 'role', 'status', 'password']
+    );
 
     // If doesn't exists, handle it
     if (!user) throw new NotFoundException('User not found');
@@ -114,7 +111,7 @@ export class AuthService {
 
   async validateJwt({ id }: JwtPayload, jwtToken: string) {
     // Find user with id
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.usersService.findOneById(id);
 
     // If doesn't exists, handle it
     if (!user) throw new UnauthorizedException();

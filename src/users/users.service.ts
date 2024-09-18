@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -30,15 +30,31 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  async findOne(id: string) {
-    // Find user with id
-    const user = await this.userRepository.findOneBy({ id });
+  async findOne(
+    where: FindOptionsWhere<User> | FindOptionsWhere<User>[],
+    select: (keyof User)[] = [
+      'id',
+      'email',
+      'name',
+      'password',
+      'role',
+      'status',
+      'username'
+    ]
+  ) {
+    // Find user
+    const user = await this.userRepository.findOne({ where, select });
 
     // If doesn't exists, throw error
     if (!user) throw new NotFoundException('user not found');
 
     // Otherwise return user
     return user;
+  }
+
+  async findOneById(id: string) {
+    // Find user with id
+    return await this.userRepository.findOneBy({ id });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -62,7 +78,8 @@ export class UsersService {
   }
 
   async remove(id: string, soft: boolean) {
-    const user = await this.findOne(id);
+    const user = await this.findOneById(id);
+
     return soft
       ? await this.userRepository.softRemove(user)
       : await this.userRepository.remove(user);
