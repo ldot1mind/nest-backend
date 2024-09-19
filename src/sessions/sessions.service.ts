@@ -5,6 +5,7 @@ import { Device } from 'common/interfaces/device.interface';
 import { Session } from 'sessions/entities/session.entity';
 import { DataSource, Not, Raw, Repository } from 'typeorm';
 import { User } from 'users/entities/user.entity';
+import { SessionWithCurrent } from './interfaces/session-wtih-current.interface';
 
 @Injectable()
 export class SessionsService {
@@ -14,7 +15,12 @@ export class SessionsService {
     private readonly sessionRepository: Repository<Session>
   ) {}
 
-  async create(userId: string, token: string, ip: string, device: Device) {
+  async create(
+    userId: string,
+    token: string,
+    ip: string,
+    device: Device
+  ): Promise<Session> {
     const session = this.sessionRepository.create({
       owner: {
         id: userId
@@ -42,22 +48,35 @@ export class SessionsService {
     return session;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async sessions(_data: CustomAuth) {
-    // return await this.userRepository.findOne({
-    //   where: { id: session.id },
-    //   relations: ['session']
-    // });
+  async find({
+    user: { id },
+    session: { token, ip, expiryDate, device }
+  }: CustomAuth): Promise<SessionWithCurrent[]> {
+    const sessions = await this.sessionRepository.find({
+      where: {
+        owner: { id },
+        token: Not(token)
+      },
+      select: ['device', 'expiryDate', 'ip']
+    });
+
+    const currentSession: SessionWithCurrent = {
+      ip,
+      expiryDate,
+      device,
+      current: true
+    };
+
+    return [currentSession, ...sessions];
   }
 
-  async remove({ id }: User, token: string) {
+  async remove({ id }: User, token: string): Promise<void> {
     const sessions = await this.sessionRepository.find({
       where: {
         owner: { id },
         token: Not(token)
       }
     });
-
-    return await this.sessionRepository.remove(sessions);
+    await this.sessionRepository.remove(sessions);
   }
 }
