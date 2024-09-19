@@ -10,11 +10,11 @@ import { CustomAuth } from 'common/interfaces/custom-request.interface';
 import { Device } from 'common/interfaces/device.interface';
 import { SessionsService } from 'sessions/sessions.service';
 import { User } from 'users/entities/user.entity';
-import { JwtPayload } from './../common/interfaces/jwt-payload.interface';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { HashingService } from './hashing/hashing.service';
 import { UsersService } from 'users/users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
