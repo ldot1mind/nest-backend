@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomUser } from 'common/interfaces/custom-request.interface';
+import { CustomAuth } from 'common/interfaces/custom-request.interface';
 import { Device } from 'common/interfaces/device.interface';
 import { Session } from 'session/entities/session.entity';
-import { DataSource, Raw, Repository } from 'typeorm';
+import { DataSource, Not, Raw, Repository } from 'typeorm';
 import { User } from 'users/entities/user.entity';
 
 @Injectable()
@@ -44,10 +44,21 @@ export class SessionService {
     return session;
   }
 
-  async sessions({ id }: CustomUser) {
-    const user = await this.userRepository.findOne({
-      where: { id },
+  async sessions({ session }: CustomAuth) {
+    return await this.userRepository.findOne({
+      where: { id: session.id },
       relations: ['session']
     });
+  }
+
+  async remove({ id }: User, token: string) {
+    const sessions = await this.sessionRepository.find({
+      where: {
+        owner: { id },
+        token: Not(token)
+      }
+    });
+
+    return await this.sessionRepository.remove(sessions);
   }
 }

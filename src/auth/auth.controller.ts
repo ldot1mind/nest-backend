@@ -18,6 +18,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { CustomAuth } from 'common/interfaces/custom-request.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -34,7 +35,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(
-    @User() user: UserEntity,
+    @User('user') user: UserEntity,
     @IpAddress() ip: string,
     @UserAgent() device: Device
   ) {
@@ -43,17 +44,17 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@User('id') userId: string) {
-    return this.authService.getProfile(userId);
+  getProfile(@User('user') user: UserEntity) {
+    return this.authService.getProfile(user);
   }
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Post('change-password')
   changePassword(
-    @User('id') userId: string,
+    @User() authData: CustomAuth,
     @Body() changePasswordDto: ChangePasswordDto
   ) {
-    return this.authService.changePassword(userId, changePasswordDto);
+    return this.authService.changePassword(authData, changePasswordDto);
   }
 }

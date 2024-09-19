@@ -6,7 +6,7 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { CustomUser } from 'common/interfaces/custom-request.interface';
+import { CustomAuth } from 'common/interfaces/custom-request.interface';
 import { Device } from 'common/interfaces/device.interface';
 import { SessionService } from 'session/session.service';
 import { User } from 'users/entities/user.entity';
@@ -56,37 +56,35 @@ export class AuthService {
     };
   }
 
-  async getProfile(id: string) {
-    // Find user
-    const user = await this.usersService.findOneById(id);
-
-    // Remove id form user object and return it
+  async getProfile(user: User) {
+    delete user.password;
     delete user.id;
+    delete user.role;
+    delete user.status;
+
     return user;
   }
 
   async changePassword(
-    id: string,
+    { user, session }: CustomAuth,
     { currentPassword, newPassword }: ChangePasswordDto
   ) {
-    const user = await this.usersService.findOne({ id }, ['password']);
-
     // Check valid password
     const isMatch = await this.hashingService.compare(
       currentPassword,
       user.password
     );
-
     // If invalid password, handle it
     if (!isMatch) throw new UnauthorizedException('invalid password');
 
     // If the new password is different from the current password
     if (currentPassword !== newPassword)
-      await this.usersService.update(id, {
+      await this.usersService.update(user.id, {
         password: newPassword
       });
 
     // remove sessions
+    await this.sessionService.remove(user, session.token);
   }
 
   async validateLocal(email: string, password: string) {
@@ -118,7 +116,7 @@ export class AuthService {
 
   async validateJwt({ id }: JwtPayload, jwtToken: string) {
     // Find user with id
-    const user = await this.usersService.findOneById(id);
+    const user = await this.usersService.findOne({ id });
 
     // If doesn't exists, handle it
     if (!user) throw new UnauthorizedException();
@@ -130,8 +128,7 @@ export class AuthService {
     if (!session) throw new UnauthorizedException();
 
     // return userId and session
-    const res: CustomUser = { id, session };
-
+    const res: CustomAuth = { user, session };
     return res;
   }
 }

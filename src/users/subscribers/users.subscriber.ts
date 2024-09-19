@@ -22,12 +22,10 @@ export class UsersSubscriber implements EntitySubscriberInterface<User> {
   }
 
   async beforeInsert({ entity }: InsertEvent<User>) {
-    console.log('beforeInsert');
     entity.password = await this.hashingService.hash(entity.password);
   }
 
   async beforeUpdate({ entity }: UpdateEvent<User>) {
-    console.log('beforeUpdate');
     entity.password = await this.hashingService.hash(entity.password);
   }
 }

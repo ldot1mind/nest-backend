@@ -2,11 +2,8 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { CustomRequest } from 'common/interfaces/custom-request.interface';
 
 export const User = createParamDecorator(
-  (data: string, ctx: ExecutionContext) => {
+  (data: 'user' | 'session', ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<CustomRequest>();
-    const user = request.user;
-    console.log('user', user);
-
-    return data ? user?.[data] : user;
+    return data ? request.user?.[data] : request.user;
   }
 );
