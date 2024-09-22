@@ -11,7 +11,7 @@ import { Device } from 'common/interfaces/device.interface';
 import { SessionsService } from 'sessions/sessions.service';
 import { User } from 'users/entities/user.entity';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { HashingService } from './hashing/hashing.service';
+import { HashingProvider } from './providers/hashing.provider';
 import { UsersService } from 'users/users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
@@ -19,11 +19,10 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly hashingService: HashingService,
+    private readonly hashingProvider: HashingProvider,
     private readonly sessionsService: SessionsService,
     @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
-
     private readonly jwtService: JwtService
   ) {}
 
@@ -42,9 +41,10 @@ export class AuthService {
   }
 
   async login(user: User, ip: string, device: Device) {
-    const payload = { id: user.id };
+    const payload: JwtPayload = { id: user.id };
+
     // generate jwt token
-    const token = this.jwtService.sign(payload);
+    const token: string = this.jwtService.sign(payload);
 
     // create new session
     await this.sessionsService.create(user.id, token, ip, device);
@@ -52,7 +52,7 @@ export class AuthService {
     // return user data and jwt token
     return {
       ...user,
-      token: this.jwtService.sign(payload)
+      token
     };
   }
 
@@ -70,7 +70,7 @@ export class AuthService {
     { currentPassword, newPassword }: ChangePasswordDto
   ) {
     // Check valid password
-    const isMatch = await this.hashingService.compare(
+    const isMatch: boolean = await this.hashingProvider.compare(
       currentPassword,
       user.password
     );
@@ -78,13 +78,14 @@ export class AuthService {
     if (!isMatch) throw new UnauthorizedException('invalid password');
 
     // If the new password is different from the current password
-    if (currentPassword !== newPassword)
+    if (currentPassword !== newPassword) {
       await this.usersService.update(user.id, {
         password: newPassword
       });
 
-    // remove sessions
-    await this.sessionsService.remove(user, session.token);
+      // remove sessions
+      await this.sessionsService.remove(user, session.token);
+    }
   }
 
   async validateLocal(email: string, password: string) {
@@ -104,7 +105,10 @@ export class AuthService {
     //   );
 
     // Check valid password
-    const isMatch = await this.hashingService.compare(password, user.password);
+    const isMatch: boolean = await this.hashingProvider.compare(
+      password,
+      user.password
+    );
 
     // If invalid password, handle it
     if (!isMatch) throw new UnauthorizedException('invalid password');

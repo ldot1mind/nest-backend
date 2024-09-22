@@ -11,8 +11,8 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import jwtConfig from './config/jwt.config';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { BcryptService } from './hashing/bcrypt.service';
-import { HashingService } from './hashing/hashing.service';
+import { BcryptProvider } from './providers/bcrypt.provider';
+import { HashingProvider } from './providers/hashing.provider';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -30,8 +30,8 @@ import { SessionsModule } from 'sessions/sessions.module';
   providers: [
     AuthService,
     {
-      provide: HashingService,
-      useClass: BcryptService
+      provide: HashingProvider,
+      useClass: BcryptProvider
     },
     LocalStrategy,
     JwtStrategy,
@@ -40,7 +40,7 @@ import { SessionsModule } from 'sessions/sessions.module';
       useClass: JwtAuthGuard
     }
   ],
-  exports: [HashingService]
+  exports: [HashingProvider]
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

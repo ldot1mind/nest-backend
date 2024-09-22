@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ServiceUnavailableException,
+  UnprocessableEntityException
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,7 +27,17 @@ export class UsersService {
       // Save and return it
       return await this.userRepository.save(user);
     } catch (error) {
-      throw error;
+      if (error.code == 23505) {
+        const parts = error.detail.split(
+          /Key \(|\)=\(|\)\s*already exists\.?\s*$/
+        );
+
+        throw new UnprocessableEntityException(
+          `${parts[1]} ${parts[2]} already exists`
+        );
+      }
+
+      throw new ServiceUnavailableException();
     }
   }
 

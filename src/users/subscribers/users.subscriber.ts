@@ -1,4 +1,4 @@
-import { HashingService } from 'auth/hashing/hashing.service';
+import { HashingProvider } from 'auth/providers/hashing.provider';
 import {
   DataSource,
   EntitySubscriberInterface,
@@ -12,7 +12,7 @@ import { User } from 'users/entities/user.entity';
 export class UsersSubscriber implements EntitySubscriberInterface<User> {
   constructor(
     private readonly dataSource: DataSource,
-    private readonly hashingService: HashingService
+    private readonly hashingProvider: HashingProvider
   ) {
     dataSource.subscribers.push(this);
   }
@@ -22,10 +22,10 @@ export class UsersSubscriber implements EntitySubscriberInterface<User> {
   }
 
   async beforeInsert({ entity }: InsertEvent<User>) {
-    entity.password = await this.hashingService.hash(entity.password);
+    entity.password = await this.hashingProvider.hash(entity.password);
   }
 
   async beforeUpdate({ entity }: UpdateEvent<User>) {
-    entity.password = await this.hashingService.hash(entity.password);
+    entity.password = await this.hashingProvider.hash(entity.password);
   }
 }
