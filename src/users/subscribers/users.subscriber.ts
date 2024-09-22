@@ -8,6 +8,10 @@ import {
 } from 'typeorm';
 import { User } from 'users/entities/user.entity';
 
+/**
+ * UsersSubscriber listens to user-related events in the database,
+ * allowing for automatic password hashing during insert and update operations.
+ */
 @EventSubscriber()
 export class UsersSubscriber implements EntitySubscriberInterface<User> {
   constructor(
@@ -17,14 +21,28 @@ export class UsersSubscriber implements EntitySubscriberInterface<User> {
     dataSource.subscribers.push(this);
   }
 
+  /**
+   * Defines the entity that this subscriber listens to (User).
+   * @returns The User entity class.
+   */
   listenTo() {
     return User;
   }
 
+  /**
+   * Hook executed before a new user is inserted into the database.
+   * It hashes the user's password before saving.
+   * @param entity - The User entity being inserted.
+   */
   async beforeInsert({ entity }: InsertEvent<User>) {
     entity.password = await this.hashingProvider.hash(entity.password);
   }
 
+  /**
+   * Hook executed before an existing user is updated in the database.
+   * It hashes the updated user's password.
+   * @param entity - The User entity being updated.
+   */
   async beforeUpdate({ entity }: UpdateEvent<User>) {
     entity.password = await this.hashingProvider.hash(entity.password);
   }

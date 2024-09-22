@@ -10,24 +10,35 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
+/**
+ * The UsersService class is responsible for handling business logic related to user management.
+ * It provides methods to create, retrieve, update, and delete user data, using a TypeORM repository.
+ */
 @Injectable()
 export class UsersService {
   constructor(
+    /** Injects the User repository to interact with the User entity in the database */
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
 
+  /**
+   * Creates a new user in the database.
+   * @param createUserDto - Data Transfer Object containing user creation details.
+   * @returns The created user entity.
+   * @throws UnprocessableEntityException if a user with duplicate fields (like email) already exists.
+   * @throws ServiceUnavailableException for any other errors during user creation.
+   */
   async create(createUserDto: CreateUserDto) {
     try {
-      // Create user
       const user = await this.userRepository.create({
         ...createUserDto
       });
 
-      // Save and return it
       return await this.userRepository.save(user);
     } catch (error) {
       if (error.code == 23505) {
+        // Handle unique constraint violation (e.g., duplicate email)
         const parts = error.detail.split(
           /Key \(|\)=\(|\)\s*already exists\.?\s*$/
         );
@@ -41,10 +52,21 @@ export class UsersService {
     }
   }
 
+  /**
+   * Retrieves all users from the database.
+   * @returns An array of user entities.
+   */
   async findAll() {
     return await this.userRepository.find();
   }
 
+  /**
+   * Retrieves a single user based on specified conditions.
+   * @param where - Condition(s) to find a user.
+   * @param select - Optional array of fields to retrieve (default: basic user info).
+   * @returns The found user entity.
+   * @throws NotFoundException if no user matches the conditions.
+   */
   async findOne(
     where: FindOptionsWhere<User> | FindOptionsWhere<User>[],
     select: (keyof User)[] = [
@@ -57,45 +79,51 @@ export class UsersService {
       'username'
     ]
   ) {
-    // Find user
     const user = await this.userRepository.findOne({ where, select });
 
-    // If doesn't exists, throw error
     if (!user) throw new NotFoundException('user not found');
 
-    // Otherwise return user
     return user;
   }
 
+  /**
+   * Retrieves a user by their ID.
+   * @param id - The ID of the user.
+   * @returns The found user entity.
+   */
   async findOneById(id: string) {
     return await this.userRepository.findOneBy({ id });
   }
 
+  /**
+   * Updates an existing user's information.
+   * @param id - The ID of the user to update.
+   * @param updateUserDto - Data Transfer Object containing updated user details.
+   * @returns The result of the update operation.
+   * @throws Any error encountered during the update operation.
+   */
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
-      // Find user with id and update data
-      const user = await this.userRepository.preload({
-        id,
-        ...updateUserDto
-      });
-
-      // If doesn't exists, throw error
-      if (!user) {
-        throw new NotFoundException('user not found');
-      }
-
-      // Otherwise save and return user
-      return await this.userRepository.save(user);
+      return await this.userRepository.update({ id }, { ...updateUserDto });
     } catch (error) {
       throw error;
     }
   }
 
+  /**
+   * Removes a user from the database.
+   * Supports both soft deletion and permanent deletion.
+   * @param id - The ID of the user to remove.
+   * @param soft - Boolean flag indicating whether to perform a soft delete (true) or a hard delete (false).
+   * @returns The result of the remove operation.
+   */
   async remove(id: string, soft: boolean) {
     const user = await this.findOneById(id);
 
     return soft
-      ? await this.userRepository.softRemove(user)
-      : await this.userRepository.remove(user);
+      ? // Soft delete (user is marked as deleted)
+        await this.userRepository.softRemove(user)
+      : // Hard delete (user is permanently removed)
+        await this.userRepository.remove(user);
   }
 }
