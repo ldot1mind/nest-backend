@@ -209,36 +209,36 @@
       2,
       &#x27;always&#x27;,
       [
-        &#x27;feat&#x27;, // New feature
-        &#x27;fix&#x27;, // Bug fix
-        &#x27;docs&#x27;, // Documentation changes
-        &#x27;style&#x27;, // Changes that do not affect the meaning of the code (white-space, formatting, etc.)
-        &#x27;refactor&#x27;, // Code changes that neither fix a bug nor add a feature
-        &#x27;perf&#x27;, // Performance improvement
-        &#x27;test&#x27;, // Adding missing tests or correcting existing tests
-        &#x27;build&#x27;, // Changes that affect the build system or external dependencies (example scopes: npm)
-        &#x27;ci&#x27;, // Changes to CI configuration files and scripts
-        &#x27;chore&#x27;, // Other changes that don&#x27;t modify src or test files
-        &#x27;revert&#x27; // Reverts a previous commit
+        &#x27;feat&#x27;,
+        &#x27;fix&#x27;,
+        &#x27;docs&#x27;,
+        &#x27;style&#x27;,
+        &#x27;refactor&#x27;,
+        &#x27;perf&#x27;,
+        &#x27;test&#x27;,
+        &#x27;build&#x27;,
+        &#x27;ci&#x27;,
+        &#x27;chore&#x27;,
+        &#x27;revert&#x27;
       ]
     ],
     &#x27;scope-enum&#x27;: [
       2,
       &#x27;always&#x27;,
       [
-        &#x27;setup&#x27;, // Project setup
-        &#x27;config&#x27;, // Configuration files
-        &#x27;deps&#x27;, // Dependency updates
-        &#x27;feature&#x27;, // Feature-specific changes
-        &#x27;bug&#x27;, // Bug fixes
-        &#x27;docs&#x27;, // Documentation
-        &#x27;style&#x27;, // Code style/formatting
-        &#x27;refactor&#x27;, // Code refactoring
-        &#x27;test&#x27;, // Tests
-        &#x27;build&#x27;, // Build scripts or configuration
-        &#x27;ci&#x27;, // Continuous integration
-        &#x27;release&#x27;, // Release related changes
-        &#x27;other&#x27; // Other changes
+        &#x27;setup&#x27;,
+        &#x27;config&#x27;,
+        &#x27;deps&#x27;,
+        &#x27;feature&#x27;,
+        &#x27;bug&#x27;,
+        &#x27;docs&#x27;,
+        &#x27;style&#x27;,
+        &#x27;refactor&#x27;,
+        &#x27;test&#x27;,
+        &#x27;build&#x27;,
+        &#x27;ci&#x27;,
+        &#x27;release&#x27;,
+        &#x27;other&#x27;
       ]
     ]
   }
@@ -246,6 +246,60 @@
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Commitlint Configuration</p>
+<p>This configuration defines the rules and settings for commit message linting using
+the Commitlint library. It enforces a conventional commit message format, ensuring
+that commit messages are consistent and meaningful.</p>
+<p>The configuration extends from the conventional commit style and includes a custom
+parser preset and formatter.</p>
+<p>Rules:</p>
+<ul>
+<li><p><code>type-enum</code>: Specifies the allowed types of commits:</p>
+<ul>
+<li><code>feat</code>: New feature</li>
+<li><code>fix</code>: Bug fix</li>
+<li><code>docs</code>: Documentation changes</li>
+<li><code>style</code>: Changes that do not affect the meaning of the code (white-space, formatting, etc.)</li>
+<li><code>refactor</code>: Code changes that neither fix a bug nor add a feature</li>
+<li><code>perf</code>: Performance improvement</li>
+<li><code>test</code>: Adding missing tests or correcting existing tests</li>
+<li><code>build</code>: Changes affecting the build system or external dependencies</li>
+<li><code>ci</code>: Changes to CI configuration files and scripts</li>
+<li><code>chore</code>: Other changes that don&#39;t modify src or test files</li>
+<li><code>revert</code>: Reverts a previous commit</li>
+</ul>
+</li>
+<li><p><code>scope-enum</code>: Specifies the allowed scopes for commits, helping to categorize changes:</p>
+<ul>
+<li><code>setup</code>: Project setup</li>
+<li><code>config</code>: Configuration files</li>
+<li><code>deps</code>: Dependency updates</li>
+<li><code>feature</code>: Feature-specific changes</li>
+<li><code>bug</code>: Bug fixes</li>
+<li><code>docs</code>: Documentation</li>
+<li><code>style</code>: Code style/formatting</li>
+<li><code>refactor</code>: Code refactoring</li>
+<li><code>test</code>: Tests</li>
+<li><code>build</code>: Build scripts or configuration</li>
+<li><code>ci</code>: Continuous integration</li>
+<li><code>release</code>: Release related changes</li>
+<li><code>other</code>: Other changes</li>
+</ul>
+</li>
+</ul>
+<p>Usage:
+To use this configuration, ensure that you have Commitlint set up in your project.
+Here’s an example of a valid commit message that would pass this configuration:</p>
+<ul>
+<li><code>feat(config): add support for new environment variables</code></li>
+<li><code>fix(docs): correct typo in installation instructions</code></li>
+<li><code>chore(deps): update dependency version</code></li>
+</ul>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -275,6 +329,17 @@
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the path to the &#39;src&#39; directory located in the current module&#39;s directory.</p>
+<p>The <code>__dirname</code> variable contains the absolute path to the directory that
+contains the currently executing script. By using <code>path.join</code>, we create a
+cross-platform compatible path that points to the &#39;src&#39; subdirectory.</p>
+<p>This path will be used later in the script to search for TypeScript files
+that may contain the <code>@deprecated</code> tag.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -444,6 +509,15 @@ address of the client.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IS_PASSWORD_KEY</code> constant is a unique identifier used for the <code>IsPassword</code> validation decorator.</p>
+<p>This key is essential for the <code>class-validator</code> library to recognize and manage the password validation
+logic associated with the <code>IsPassword</code> decorator. By providing a specific identifier, it helps maintain
+consistency and avoids naming collisions with other validation decorators in the application.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -466,7 +540,7 @@ address of the client.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The <code>isPassword</code> function checks if the value matches the defined password regex.</p>
+                    <div class="io-description"><p>The <code>isPassword</code> function checks if the given value matches the defined password regex.</p>
 </div>
                 </td>
             </tr>
@@ -532,10 +606,17 @@ It returns a decorator that can be applied to class properties to enforce passwo
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The <code>IsPassword</code> decorator validates that a given value meets specific password complexity requirements.
-The password must be between 8 to 20 characters long and include at least one lowercase letter,
-one uppercase letter, and one special character.</p>
-<p>This validation helps enforce security policies regarding password strength within the application.</p>
+                    <div class="io-description"><p>The <code>IsPassword</code> decorator validates that a given value meets specific password complexity requirements.</p>
+<p>Password Requirements:</p>
+<ul>
+<li>Length: Must be between 8 to 20 characters.</li>
+<li>Must include at least:<ul>
+<li>One lowercase letter (a-z).</li>
+<li>One uppercase letter (A-Z).</li>
+<li>One special character (e.g.,</li>
+</ul>
+</li>
+</ul>
 </div>
                 </td>
             </tr>
@@ -568,6 +649,17 @@ one uppercase letter, and one special character.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IS_PUBLIC_KEY</code> constant is a unique identifier used in conjunction with the
+<code>Public</code> decorator to mark routes as public.</p>
+<p>This key is crucial for route guards to identify whether a particular route
+should bypass authentication checks. By setting the metadata key to <code>true</code>,
+it clearly indicates that the route is open to all users, regardless of their
+authentication status.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -629,6 +721,15 @@ where no authentication is required.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IS_USERNAME_KEY</code> constant serves as a unique identifier for the <code>IsUsername</code> validation decorator.</p>
+<p>This key is crucial for the <code>class-validator</code> library to recognize and manage the username validation
+logic associated with the <code>IsUsername</code> decorator. It ensures that the validation process is consistent
+and helps prevent naming conflicts with other validation decorators within the application.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>

@@ -177,12 +177,14 @@ Upon validation, it invokes the AuthService to check the validity of the JWT and
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/auth/strategies/jwt.strategy.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/auth/strategies/jwt.strategy.ts:16</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>The constructor initializes the JWT strategy with necessary configurations.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -191,6 +193,7 @@ Upon validation, it invokes the AuthService to check the validity of the JWT and
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -205,6 +208,12 @@ Upon validation, it invokes the AuthService to check the validity of the JWT and
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The configuration settings for JWT, injected from the jwtConfig module.</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>authService</td>
@@ -217,6 +226,12 @@ Upon validation, it invokes the AuthService to check the validity of the JWT and
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The AuthService instance, used for validating the JWT payload and retrieving user data.</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -252,8 +267,8 @@ Upon validation, it invokes the AuthService to check the validity of the JWT and
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="42"
-                                    class="link-to-prism">src/auth/strategies/jwt.strategy.ts:42</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/auth/strategies/jwt.strategy.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -261,6 +276,7 @@ Upon validation, it invokes the AuthService to check the validity of the JWT and
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Validates the JWT payload by calling the AuthService&#39;s validateJwt method.</p>
+<p>This method is invoked after the JWT has been extracted and decoded.</p>
 </div>
 
                             <div class="io-description">
@@ -347,28 +363,44 @@ import { ExtractJwt, Strategy } from &#x27;passport-jwt&#x27;;
  * It extracts the JWT from the request&#x27;s authorization header and validates the token&#x27;s payload.
  * Upon validation, it invokes the AuthService to check the validity of the JWT and retrieve user information.
  */
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  /**
+   * The constructor initializes the JWT strategy with necessary configurations.
+   *
+   * @param jwtConfiguration - The configuration settings for JWT, injected from the jwtConfig module.
+   * @param authService - The AuthService instance, used for validating the JWT payload and retrieving user data.
+   */
   constructor(
     @Inject(jwtConfig.KEY)
     private readonly jwtConfiguration: ConfigType&lt;typeof jwtConfig&gt;,
     private readonly authService: AuthService
   ) {
     super({
-      // Extracts JWT from the Authorization header
+      /**
+       * Extracts the JWT from the Authorization header as a Bearer token.
+       * This allows the strategy to retrieve the token sent by the client.
+       */
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 
-      // Secret key for verifying the JWT
+      /**
+       * The secret key used to verify the authenticity of the JWT.
+       * This key is essential for ensuring that the token has not been tampered with.
+       */
       secretOrKey: jwtConfiguration.secret,
 
-      // Passes the request to the validation function
+      /**
+       * Indicates that the request object should be passed to the validation callback.
+       * This enables access to request-specific data during validation.
+       */
       passReqToCallback: true
     });
   }
 
   /**
    * Validates the JWT payload by calling the AuthService&#x27;s validateJwt method.
+   *
+   * This method is invoked after the JWT has been extracted and decoded.
    *
    * @param req - The incoming request object, used to retrieve the JWT.
    * @param payload - The decoded JWT payload containing user information.
@@ -377,7 +409,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   validate(req: Request, payload: JwtPayload) {
     return this.authService.validateJwt(
       payload,
-      // Extracts the JWT token
+      /**
+       * Extracts the JWT token from the authorization header by removing the &#x27;bearer &#x27; prefix.
+       * This is necessary to obtain the raw token for validation.
+       */
       req.headers?.authorization.replace(&#x27;bearer &#x27;, &#x27;&#x27;)
     );
   }

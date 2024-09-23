@@ -220,10 +220,19 @@ strong password for authentication.</li>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/auth/dto/login-user.dto.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/auth/dto/login-user.dto.ts:29</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The user&#39;s email address or username.</p>
+<p>This field must not be empty and must be a string. It allows users
+to log in using either their email or username, providing flexibility
+in how users access their accounts.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -257,10 +266,19 @@ strong password for authentication.</li>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/auth/dto/login-user.dto.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/auth/dto/login-user.dto.ts:39</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The password for the user account.</p>
+<p>This field must comply with the security standards enforced by the
+<code>IsPassword</code> decorator. It ensures that the password is strong enough
+to protect the user&#39;s account from unauthorized access.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -295,10 +313,24 @@ import { IsPassword } from &#x27;common/decorators/validators/is-password.decora
  *   strong password for authentication.
  */
 export class LoginUserDto {
+  /**
+   * The user&#x27;s email address or username.
+   *
+   * This field must not be empty and must be a string. It allows users
+   * to log in using either their email or username, providing flexibility
+   * in how users access their accounts.
+   */
   @IsNotEmpty()
   @IsString()
   readonly email: string;
 
+  /**
+   * The password for the user account.
+   *
+   * This field must comply with the security standards enforced by the
+   * &#x60;IsPassword&#x60; decorator. It ensures that the password is strong enough
+   * to protect the user&#x27;s account from unauthorized access.
+   */
   @IsPassword()
   readonly password: string;
 }

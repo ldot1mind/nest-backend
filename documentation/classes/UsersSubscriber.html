@@ -128,7 +128,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>UsersSubscriber listens to user-related events in the database,
+                <p>The <code>UsersSubscriber</code> class listens to user-related events in the database,
 allowing for automatic password hashing during insert and update operations.</p>
 
             </p>
@@ -195,6 +195,8 @@ allowing for automatic password hashing during insert and update operations.</p>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of the UsersSubscriber.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -203,6 +205,7 @@ allowing for automatic password hashing during insert and update operations.</p>
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -217,6 +220,12 @@ allowing for automatic password hashing during insert and update operations.</p>
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The data source instance used to interact with the database.</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>hashingProvider</td>
@@ -229,6 +238,12 @@ allowing for automatic password hashing during insert and update operations.</p>
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The hashing provider used to hash passwords securely.</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -267,8 +282,8 @@ allowing for automatic password hashing during insert and update operations.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="37"
-                                    class="link-to-prism">src/users/subscribers/users.subscriber.ts:37</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/users/subscribers/users.subscriber.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -338,8 +353,8 @@ It hashes the user&#39;s password before saving.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="46"
-                                    class="link-to-prism">src/users/subscribers/users.subscriber.ts:46</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">src/users/subscribers/users.subscriber.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -407,8 +422,8 @@ It hashes the updated user&#39;s password.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="28"
-                                    class="link-to-prism">src/users/subscribers/users.subscriber.ts:28</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">src/users/subscribers/users.subscriber.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -451,11 +466,17 @@ import {
 import { User } from &#x27;users/entities/user.entity&#x27;;
 
 /**
- * UsersSubscriber listens to user-related events in the database,
+ * The &#x60;UsersSubscriber&#x60; class listens to user-related events in the database,
  * allowing for automatic password hashing during insert and update operations.
  */
 @EventSubscriber()
 export class UsersSubscriber implements EntitySubscriberInterface&lt;User&gt; {
+  /**
+   * Creates an instance of the UsersSubscriber.
+   *
+   * @param dataSource - The data source instance used to interact with the database.
+   * @param hashingProvider - The hashing provider used to hash passwords securely.
+   */
   constructor(
     private readonly dataSource: DataSource,
     private readonly hashingProvider: HashingProvider

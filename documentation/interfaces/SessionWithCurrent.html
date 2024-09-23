@@ -131,8 +131,8 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>SessionWithCurrent interface represents a session with additional information
-indicating if it&#39;s the current session.</p>
+                <p>The <code>SessionWithCurrent</code> interface represents a session with additional information
+indicating if it is the current active session for the user.</p>
 
             </p>
 
@@ -221,6 +221,13 @@ indicating if it&#39;s the current session.</p>
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Optional field that indicates whether this session is the current active session.
+If true, it can be used to differentiate it from other sessions.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -254,6 +261,13 @@ indicating if it&#39;s the current session.</p>
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The device used to initiate the session, represented by the <code>Device</code> interface.
+This includes details about the device type and version.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -287,6 +301,12 @@ indicating if it&#39;s the current session.</p>
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The expiration date of the session, indicating when it will no longer be valid.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -320,6 +340,12 @@ indicating if it&#39;s the current session.</p>
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The IP address from which the session was initiated.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -330,15 +356,30 @@ indicating if it&#39;s the current session.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Device } from &#x27;common/interfaces/device.interface&#x27;;
 
 /**
- * SessionWithCurrent interface represents a session with additional information
- * indicating if it&#x27;s the current session.
+ * The &#x60;SessionWithCurrent&#x60; interface represents a session with additional information
+ * indicating if it is the current active session for the user.
  */
 export interface SessionWithCurrent {
+  /**
+   * The IP address from which the session was initiated.
+   */
   ip: string;
+
+  /**
+   * The expiration date of the session, indicating when it will no longer be valid.
+   */
   expiryDate: Date;
+
+  /**
+   * The device used to initiate the session, represented by the &#x60;Device&#x60; interface.
+   * This includes details about the device type and version.
+   */
   device: Device;
 
-  // Optional field that marks if this is the current session
+  /**
+   * Optional field that indicates whether this session is the current active session.
+   * If true, it can be used to differentiate it from other sessions.
+   */
   current?: boolean;
 }
 </code></pre>

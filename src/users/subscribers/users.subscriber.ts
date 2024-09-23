@@ -9,11 +9,17 @@ import {
 import { User } from 'users/entities/user.entity';
 
 /**
- * UsersSubscriber listens to user-related events in the database,
+ * The `UsersSubscriber` class listens to user-related events in the database,
  * allowing for automatic password hashing during insert and update operations.
  */
 @EventSubscriber()
 export class UsersSubscriber implements EntitySubscriberInterface<User> {
+  /**
+   * Creates an instance of the UsersSubscriber.
+   *
+   * @param dataSource - The data source instance used to interact with the database.
+   * @param hashingProvider - The hashing provider used to hash passwords securely.
+   */
   constructor(
     private readonly dataSource: DataSource,
     private readonly hashingProvider: HashingProvider

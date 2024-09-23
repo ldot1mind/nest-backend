@@ -17,10 +17,24 @@ import { IsPassword } from 'common/decorators/validators/is-password.decorator';
  *   strong password for authentication.
  */
 export class LoginUserDto {
+  /**
+   * The user's email address or username.
+   *
+   * This field must not be empty and must be a string. It allows users
+   * to log in using either their email or username, providing flexibility
+   * in how users access their accounts.
+   */
   @IsNotEmpty()
   @IsString()
   readonly email: string;
 
+  /**
+   * The password for the user account.
+   *
+   * This field must comply with the security standards enforced by the
+   * `IsPassword` decorator. It ensures that the password is strong enough
+   * to protect the user's account from unauthorized access.
+   */
   @IsPassword()
   readonly password: string;
 }

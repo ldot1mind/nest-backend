@@ -16,8 +16,13 @@ import { User } from './entities/user.entity';
  */
 @Injectable()
 export class UsersService {
+  /**
+   * Creates an instance of the UsersService.
+   *
+   * @param userRepository - The TypeORM repository used to interact with the User entity in the database.
+   * This repository provides methods for performing CRUD operations on user data.
+   */
   constructor(
-    /** Injects the User repository to interact with the User entity in the database */
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}

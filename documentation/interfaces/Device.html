@@ -133,10 +133,6 @@
             <p class="comment">
                 <p>The <code>Device</code> interface represents a user&#39;s device used during a session.
 It is primarily used to capture and store information about the device in the session entity.</p>
-<ul>
-<li><code>name</code>: The name or type of the device (e.g., &#39;iPhone&#39;, &#39;Windows PC&#39;).</li>
-<li><code>version</code>: (Optional) The version of the device or its operating system, if applicable (e.g., &#39;14.0&#39; for an iPhone).</li>
-</ul>
 
             </p>
 
@@ -208,6 +204,14 @@ It is primarily used to capture and store information about the device in the se
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The name or type of the device (e.g., &#39;iPhone&#39;, &#39;Windows PC&#39;).
+This field helps identify the device being used, which can be useful for
+logging, analytics, or security purposes.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -246,6 +250,14 @@ It is primarily used to capture and store information about the device in the se
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>(Optional) The version of the device or its operating system, if applicable
+(e.g., &#39;14.0&#39; for an iPhone). This information can provide insights into
+the capabilities of the device and assist in troubleshooting.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -254,7 +266,18 @@ It is primarily used to capture and store information about the device in the se
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface Device {
+  /**
+   * The name or type of the device (e.g., &#x27;iPhone&#x27;, &#x27;Windows PC&#x27;).
+   * This field helps identify the device being used, which can be useful for
+   * logging, analytics, or security purposes.
+   */
   readonly name: string;
+
+  /**
+   * (Optional) The version of the device or its operating system, if applicable
+   * (e.g., &#x27;14.0&#x27; for an iPhone). This information can provide insights into
+   * the capabilities of the device and assist in troubleshooting.
+   */
   readonly version?: string | undefined;
 }
 </code></pre>

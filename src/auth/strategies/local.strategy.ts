@@ -9,6 +9,14 @@ import { Strategy } from 'passport-local';
  */
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
+  /**
+   * The constructor initializes the local authentication strategy.
+   *
+   * @param authService - The AuthService instance, used to validate user credentials.
+   *
+   * The `usernameField` option is set to 'email' to specify that the username
+   * will be provided in the form of an email address.
+   */
   constructor(private readonly authService: AuthService) {
     // Specifies the field used for username
     super({ usernameField: 'email' });
@@ -17,9 +25,12 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   /**
    * Validates the user credentials by calling the AuthService's validateLocal method.
    *
+   * This method is invoked after the user submits their email and password for authentication.
+   *
    * @param email - The email provided by the user for authentication.
    * @param password - The password provided by the user for authentication.
-   * @returns The authenticated user entity if validation is successful, or throws an error if not.
+   * @returns The authenticated user entity if validation is successful,
+   * or throws an error if not (e.g., if credentials are invalid).
    */
   validate(email: string, password: string) {
     return this.authService.validateLocal(email, password);

@@ -16,9 +16,23 @@ import { IsPassword } from 'common/decorators/validators/is-password.decorator';
  *   ensure that it is strong and secure.
  */
 export class ChangePasswordDto {
+  /**
+   * The current password of the user.
+   *
+   * This field must comply with the security standards enforced by
+   * the `IsPassword` decorator. It verifies that the user's current
+   * password is strong enough to prevent unauthorized changes.
+   */
   @IsPassword()
   readonly currentPassword: string;
 
+  /**
+   * The new password to be set for the user account.
+   *
+   * This field must also adhere to the same security standards as
+   * the current password, ensuring that the new password is strong,
+   * secure, and meets the application's password complexity requirements.
+   */
   @IsPassword()
   readonly newPassword: string;
 }

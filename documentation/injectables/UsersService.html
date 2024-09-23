@@ -197,6 +197,9 @@ It provides methods to create, retrieve, update, and delete user data, using a T
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of the UsersService.</p>
+<p>This repository provides methods for performing CRUD operations on user data.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -205,6 +208,7 @@ It provides methods to create, retrieve, update, and delete user data, using a T
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -219,6 +223,13 @@ It provides methods to create, retrieve, update, and delete user data, using a T
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The TypeORM repository used to interact with the User entity in the database.
+This repository provides methods for performing CRUD operations on user data.</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -256,8 +267,8 @@ It provides methods to create, retrieve, update, and delete user data, using a T
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/users/users.service.ts:32</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">src/users/users.service.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -335,8 +346,8 @@ It provides methods to create, retrieve, update, and delete user data, using a T
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="59"
-                                    class="link-to-prism">src/users/users.service.ts:59</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">src/users/users.service.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -380,8 +391,8 @@ It provides methods to create, retrieve, update, and delete user data, using a T
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="70"
-                                    class="link-to-prism">src/users/users.service.ts:70</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="75"
+                                    class="link-to-prism">src/users/users.service.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -491,8 +502,8 @@ It provides methods to create, retrieve, update, and delete user data, using a T
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="94"
-                                    class="link-to-prism">src/users/users.service.ts:94</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">src/users/users.service.ts:99</a></div>
                         </td>
                     </tr>
 
@@ -570,8 +581,8 @@ It provides methods to create, retrieve, update, and delete user data, using a T
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="120"
-                                    class="link-to-prism">src/users/users.service.ts:120</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">src/users/users.service.ts:125</a></div>
                         </td>
                     </tr>
 
@@ -668,8 +679,8 @@ Supports both soft deletion and permanent deletion.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="105"
-                                    class="link-to-prism">src/users/users.service.ts:105</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">src/users/users.service.ts:110</a></div>
                         </td>
                     </tr>
 
@@ -767,8 +778,13 @@ import { User } from &#x27;./entities/user.entity&#x27;;
  */
 @Injectable()
 export class UsersService {
+  /**
+   * Creates an instance of the UsersService.
+   *
+   * @param userRepository - The TypeORM repository used to interact with the User entity in the database.
+   * This repository provides methods for performing CRUD operations on user data.
+   */
   constructor(
-    /** Injects the User repository to interact with the User entity in the database */
     @InjectRepository(User)
     private readonly userRepository: Repository&lt;User&gt;
   ) {}

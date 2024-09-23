@@ -180,6 +180,30 @@
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>This module scans a specified directory for TypeScript files that contain
+the <code>@deprecated</code> tag and logs their paths to the console.</p>
+<p>Dependencies:</p>
+<ul>
+<li>fs: Node.js file system module to interact with the file system.</li>
+<li>path: Node.js module to handle and transform file paths.</li>
+<li>chalk: A library for styling console output, allowing colored messages.</li>
+</ul>
+<p>The <code>findDeprecatedFiles</code> function recursively traverses the specified directory
+and its subdirectories. For each TypeScript (.ts) file found, it reads the file
+content to check for the presence of the <code>@deprecated</code> tag. If found, it logs
+the file name and path in yellow color to indicate it is deprecated.</p>
+<p>The directory to start the search is defined by joining the current
+directory path with &#39;src&#39;.</p>
+<p>Usage:</p>
+<ul>
+<li>This script can be used as part of a maintenance routine to identify
+deprecated files within a project, helping developers to keep track of
+outdated code.</li>
+</ul>
+<p>Example:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">node path/to/this/script.js</code></pre></div><p>Running this script will output the paths of all TypeScript files containing
+the <code>@deprecated</code> tag in the &#39;src&#39; directory and its subdirectories.</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>

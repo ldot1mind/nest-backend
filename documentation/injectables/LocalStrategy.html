@@ -182,6 +182,10 @@ It retrieves the username (email) and password from the request and uses the Aut
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>The constructor initializes the local authentication strategy.</p>
+<p>The <code>usernameField</code> option is set to &#39;email&#39; to specify that the username
+will be provided in the form of an email address.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -190,6 +194,7 @@ It retrieves the username (email) and password from the request and uses the Aut
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -204,6 +209,14 @@ It retrieves the username (email) and password from the request and uses the Aut
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The AuthService instance, used to validate user credentials.</li>
+</ul>
+<p>The <code>usernameField</code> option is set to &#39;email&#39; to specify that the username
+will be provided in the form of an email address.</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -239,8 +252,8 @@ It retrieves the username (email) and password from the request and uses the Aut
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="24"
-                                    class="link-to-prism">src/auth/strategies/local.strategy.ts:24</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="35"
+                                    class="link-to-prism">src/auth/strategies/local.strategy.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -248,6 +261,8 @@ It retrieves the username (email) and password from the request and uses the Aut
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Validates the user credentials by calling the AuthService&#39;s validateLocal method.</p>
+<p>This method is invoked after the user submits their email and password for authentication.</p>
+<p>or throws an error if not (e.g., if credentials are invalid).</p>
 </div>
 
                             <div class="io-description">
@@ -307,7 +322,8 @@ It retrieves the username (email) and password from the request and uses the Aut
 
                         </div>
                             <div class="io-description">
-                                <p>The authenticated user entity if validation is successful, or throws an error if not.</p>
+                                <p>The authenticated user entity if validation is successful,
+or throws an error if not (e.g., if credentials are invalid).</p>
 
                             </div>
                 </td>
@@ -331,6 +347,14 @@ import { Strategy } from &#x27;passport-local&#x27;;
  */
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
+  /**
+   * The constructor initializes the local authentication strategy.
+   *
+   * @param authService - The AuthService instance, used to validate user credentials.
+   *
+   * The &#x60;usernameField&#x60; option is set to &#x27;email&#x27; to specify that the username
+   * will be provided in the form of an email address.
+   */
   constructor(private readonly authService: AuthService) {
     // Specifies the field used for username
     super({ usernameField: &#x27;email&#x27; });
@@ -339,9 +363,12 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   /**
    * Validates the user credentials by calling the AuthService&#x27;s validateLocal method.
    *
+   * This method is invoked after the user submits their email and password for authentication.
+   *
    * @param email - The email provided by the user for authentication.
    * @param password - The password provided by the user for authentication.
-   * @returns The authenticated user entity if validation is successful, or throws an error if not.
+   * @returns The authenticated user entity if validation is successful,
+   * or throws an error if not (e.g., if credentials are invalid).
    */
   validate(email: string, password: string) {
     return this.authService.validateLocal(email, password);

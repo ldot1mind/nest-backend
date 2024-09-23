@@ -12,6 +12,13 @@ import {
  */
 const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{3,30}$/;
 
+/**
+ * The `IS_USERNAME_KEY` constant serves as a unique identifier for the `IsUsername` validation decorator.
+ *
+ * This key is crucial for the `class-validator` library to recognize and manage the username validation
+ * logic associated with the `IsUsername` decorator. It ensures that the validation process is consistent
+ * and helps prevent naming conflicts with other validation decorators within the application.
+ */
 const IS_USERNAME_KEY = 'isUsername';
 
 /**

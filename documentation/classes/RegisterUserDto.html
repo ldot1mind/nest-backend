@@ -128,23 +128,29 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>The <code>RegisterUserDto</code> class is utilized for user registration
-requests within the application.</p>
-<p>It collects the necessary information required for creating a
-new user account, enforcing validation to ensure data integrity
-and security.</p>
+                <p>The <code>RegisterUserDto</code> class is used to represent the data transfer object
+for user registration requests within the application.</p>
+<p>This class defines the structure of the data required to create a new user
+account and enforces validation rules to ensure the integrity and security
+of the input data.</p>
 <p>Validation Rules:</p>
 <ul>
-<li><code>email</code>: Must be a valid email format, ensuring that the
-user provides a correctly formatted email address for account
-verification and communication.</li>
-<li><code>username</code>: Must meet specific criteria defined by the
-<code>IsUsername</code> decorator, which typically includes length and
-character restrictions to ensure a valid username.</li>
-<li><code>password</code>: Must comply with robust security standards enforced
-by the <code>IsPassword</code> decorator, ensuring that the password is
-sufficiently strong to protect the user account.</li>
+<li><p><code>email</code>: Must be a valid email format, which is essential for account
+verification and future communication with the user. This is enforced by
+the <code>@IsEmail()</code> decorator from the <code>class-validator</code> library.</p>
+</li>
+<li><p><code>username</code>: Must adhere to specific criteria set by the <code>IsUsername</code>
+decorator, ensuring that it meets length and character restrictions.
+This helps prevent issues such as invalid usernames that could disrupt
+user experience or security.</p>
+</li>
+<li><p><code>password</code>: Must comply with strong security standards as defined by the
+<code>IsPassword</code> decorator. This validation ensures that the password is
+sufficiently robust to safeguard the user account from unauthorized access.</p>
+</li>
 </ul>
+<p>Each of these properties is marked as <code>readonly</code>, indicating that their
+values are intended to be immutable after instantiation of the class.</p>
 
             </p>
 
@@ -227,10 +233,20 @@ sufficiently strong to protect the user account.</li>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/auth/dto/register-user.dto.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/auth/dto/register-user.dto.ts:40</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The user&#39;s email address.</p>
+<p>This field must be a valid email format. It is crucial for account
+verification and future communication with the user. The validation
+is enforced by the <code>@IsEmail()</code> decorator from the <code>class-validator</code>
+library.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -264,10 +280,19 @@ sufficiently strong to protect the user account.</li>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/auth/dto/register-user.dto.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/auth/dto/register-user.dto.ts:60</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The password for the new account.</p>
+<p>This field must comply with robust security standards enforced by the
+<code>IsPassword</code> decorator. It ensures that the password is sufficiently strong
+to protect the user account from unauthorized access and security threats.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -301,10 +326,19 @@ sufficiently strong to protect the user account.</li>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/auth/dto/register-user.dto.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/auth/dto/register-user.dto.ts:50</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The desired username for the new account.</p>
+<p>This field must meet specific criteria defined by the <code>IsUsername</code>
+decorator. This typically includes length restrictions and rules against
+invalid characters to ensure a valid and user-friendly username.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -325,31 +359,59 @@ import { IsPassword } from &#x27;common/decorators/validators/is-password.decora
 import { IsUsername } from &#x27;common/decorators/validators/is-username.decorator&#x27;;
 
 /**
- * The &#x60;RegisterUserDto&#x60; class is utilized for user registration
- * requests within the application.
+ * The &#x60;RegisterUserDto&#x60; class is used to represent the data transfer object
+ * for user registration requests within the application.
  *
- * It collects the necessary information required for creating a
- * new user account, enforcing validation to ensure data integrity
- * and security.
+ * This class defines the structure of the data required to create a new user
+ * account and enforces validation rules to ensure the integrity and security
+ * of the input data.
  *
  * Validation Rules:
- * - &#x60;email&#x60;: Must be a valid email format, ensuring that the
- *   user provides a correctly formatted email address for account
- *   verification and communication.
- * - &#x60;username&#x60;: Must meet specific criteria defined by the
- *   &#x60;IsUsername&#x60; decorator, which typically includes length and
- *   character restrictions to ensure a valid username.
- * - &#x60;password&#x60;: Must comply with robust security standards enforced
- *   by the &#x60;IsPassword&#x60; decorator, ensuring that the password is
- *   sufficiently strong to protect the user account.
+ * - &#x60;email&#x60;: Must be a valid email format, which is essential for account
+ *   verification and future communication with the user. This is enforced by
+ *   the &#x60;@IsEmail()&#x60; decorator from the &#x60;class-validator&#x60; library.
+ *
+ * - &#x60;username&#x60;: Must adhere to specific criteria set by the &#x60;IsUsername&#x60;
+ *   decorator, ensuring that it meets length and character restrictions.
+ *   This helps prevent issues such as invalid usernames that could disrupt
+ *   user experience or security.
+ *
+ * - &#x60;password&#x60;: Must comply with strong security standards as defined by the
+ *   &#x60;IsPassword&#x60; decorator. This validation ensures that the password is
+ *   sufficiently robust to safeguard the user account from unauthorized access.
+ *
+ * Each of these properties is marked as &#x60;readonly&#x60;, indicating that their
+ * values are intended to be immutable after instantiation of the class.
  */
 export class RegisterUserDto {
+  /**
+   * The user&#x27;s email address.
+   *
+   * This field must be a valid email format. It is crucial for account
+   * verification and future communication with the user. The validation
+   * is enforced by the &#x60;@IsEmail()&#x60; decorator from the &#x60;class-validator&#x60;
+   * library.
+   */
   @IsEmail()
   readonly email: string;
 
+  /**
+   * The desired username for the new account.
+   *
+   * This field must meet specific criteria defined by the &#x60;IsUsername&#x60;
+   * decorator. This typically includes length restrictions and rules against
+   * invalid characters to ensure a valid and user-friendly username.
+   */
   @IsUsername()
   readonly username: string;
 
+  /**
+   * The password for the new account.
+   *
+   * This field must comply with robust security standards enforced by the
+   * &#x60;IsPassword&#x60; decorator. It ensures that the password is sufficiently strong
+   * to protect the user account from unauthorized access and security threats.
+   */
   @IsPassword()
   readonly password: string;
 }
