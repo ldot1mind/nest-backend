@@ -1,0 +1,1208 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>mintegs-backend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">mintegs-backend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#Configuration" title="commitlint.config.ts" ><b>Configuration</b>&nbsp;&nbsp;&nbsp;(commitlint.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#directoryPath" title="findDeprecatedFiles.ts" ><b>directoryPath</b>&nbsp;&nbsp;&nbsp;(findDeprecatedFiles.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ENV_VALIDATION_SCHEMA" title="src/common/env/env.constants.ts" ><b>ENV_VALIDATION_SCHEMA</b>&nbsp;&nbsp;&nbsp;(src/.../env.constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IpAddress" title="src/auth/decorators/ipAddress.decorator.ts" ><b>IpAddress</b>&nbsp;&nbsp;&nbsp;(src/.../ipAddress.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IS_PASSWORD_KEY" title="src/common/decorators/validators/is-password.decorator.ts" ><b>IS_PASSWORD_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../is-password.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IS_PUBLIC_KEY" title="src/auth/decorators/public.decorator.ts" ><b>IS_PUBLIC_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../public.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IS_USERNAME_KEY" title="src/common/decorators/validators/is-username.decorator.ts" ><b>IS_USERNAME_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../is-username.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IsBoolean" title="src/common/decorators/validators/is-boolean.decorator.ts" ><b>IsBoolean</b>&nbsp;&nbsp;&nbsp;(src/.../is-boolean.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#isPassword" title="src/common/decorators/validators/is-password.decorator.ts" ><b>isPassword</b>&nbsp;&nbsp;&nbsp;(src/.../is-password.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IsPassword" title="src/common/decorators/validators/is-password.decorator.ts" ><b>IsPassword</b>&nbsp;&nbsp;&nbsp;(src/.../is-password.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#isUsername" title="src/common/decorators/validators/is-username.decorator.ts" ><b>isUsername</b>&nbsp;&nbsp;&nbsp;(src/.../is-username.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#IsUsername" title="src/common/decorators/validators/is-username.decorator.ts" ><b>IsUsername</b>&nbsp;&nbsp;&nbsp;(src/.../is-username.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#passwordRegex" title="src/common/decorators/validators/is-password.decorator.ts" ><b>passwordRegex</b>&nbsp;&nbsp;&nbsp;(src/.../is-password.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Public" title="src/auth/decorators/public.decorator.ts" ><b>Public</b>&nbsp;&nbsp;&nbsp;(src/.../public.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#toBoolean" title="src/common/decorators/transforms/to-boolean.decorator.ts" ><b>toBoolean</b>&nbsp;&nbsp;&nbsp;(src/.../to-boolean.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ToBoolean" title="src/common/decorators/transforms/to-boolean.decorator.ts" ><b>ToBoolean</b>&nbsp;&nbsp;&nbsp;(src/.../to-boolean.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#User" title="src/auth/decorators/user.decorator.ts" ><b>User</b>&nbsp;&nbsp;&nbsp;(src/.../user.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserAgent" title="src/auth/decorators/user-agent.decorator.ts" ><b>UserAgent</b>&nbsp;&nbsp;&nbsp;(src/.../user-agent.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#usernameRegex" title="src/common/decorators/validators/is-username.decorator.ts" ><b>usernameRegex</b>&nbsp;&nbsp;&nbsp;(src/.../is-username.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VALIDATION_PIPE_OPTIONS" title="src/common/util/common.constants.ts" ><b>VALIDATION_PIPE_OPTIONS</b>&nbsp;&nbsp;&nbsp;(src/.../common.constants.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>commitlint.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Configuration"></a>
+                    <span class="name">
+                        <span ><b>Configuration</b></span>
+                        <a href="#Configuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../entitys/User.html" target="_self" >UserConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  extends: [&#x27;@commitlint/config-conventional&#x27;],
+  parserPreset: &#x27;conventional-changelog-atom&#x27;,
+  formatter: &#x27;@commitlint/format&#x27;,
+  rules: {
+    &#x27;type-enum&#x27;: [
+      2,
+      &#x27;always&#x27;,
+      [
+        &#x27;feat&#x27;,
+        &#x27;fix&#x27;,
+        &#x27;docs&#x27;,
+        &#x27;style&#x27;,
+        &#x27;refactor&#x27;,
+        &#x27;perf&#x27;,
+        &#x27;test&#x27;,
+        &#x27;build&#x27;,
+        &#x27;ci&#x27;,
+        &#x27;chore&#x27;,
+        &#x27;revert&#x27;
+      ]
+    ],
+    &#x27;scope-enum&#x27;: [
+      2,
+      &#x27;always&#x27;,
+      [
+        &#x27;setup&#x27;,
+        &#x27;config&#x27;,
+        &#x27;deps&#x27;,
+        &#x27;feature&#x27;,
+        &#x27;bug&#x27;,
+        &#x27;docs&#x27;,
+        &#x27;style&#x27;,
+        &#x27;refactor&#x27;,
+        &#x27;test&#x27;,
+        &#x27;build&#x27;,
+        &#x27;ci&#x27;,
+        &#x27;release&#x27;,
+        &#x27;other&#x27;
+      ]
+    ]
+  }
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Commitlint Configuration</p>
+<p>This configuration defines the rules and settings for commit message linting using
+the Commitlint library. It enforces a conventional commit message format, ensuring
+that commit messages are consistent and meaningful.</p>
+<p>The configuration extends from the conventional commit style and includes a custom
+parser preset and formatter.</p>
+<p>Rules:</p>
+<ul>
+<li><p><code>type-enum</code>: Specifies the allowed types of commits:</p>
+<ul>
+<li><code>feat</code>: New feature</li>
+<li><code>fix</code>: Bug fix</li>
+<li><code>docs</code>: Documentation changes</li>
+<li><code>style</code>: Changes that do not affect the meaning of the code (white-space, formatting, etc.)</li>
+<li><code>refactor</code>: Code changes that neither fix a bug nor add a feature</li>
+<li><code>perf</code>: Performance improvement</li>
+<li><code>test</code>: Adding missing tests or correcting existing tests</li>
+<li><code>build</code>: Changes affecting the build system or external dependencies</li>
+<li><code>ci</code>: Changes to CI configuration files and scripts</li>
+<li><code>chore</code>: Other changes that don&#39;t modify src or test files</li>
+<li><code>revert</code>: Reverts a previous commit</li>
+</ul>
+</li>
+<li><p><code>scope-enum</code>: Specifies the allowed scopes for commits, helping to categorize changes:</p>
+<ul>
+<li><code>setup</code>: Project setup</li>
+<li><code>config</code>: Configuration files</li>
+<li><code>deps</code>: Dependency updates</li>
+<li><code>feature</code>: Feature-specific changes</li>
+<li><code>bug</code>: Bug fixes</li>
+<li><code>docs</code>: Documentation</li>
+<li><code>style</code>: Code style/formatting</li>
+<li><code>refactor</code>: Code refactoring</li>
+<li><code>test</code>: Tests</li>
+<li><code>build</code>: Build scripts or configuration</li>
+<li><code>ci</code>: Continuous integration</li>
+<li><code>release</code>: Release related changes</li>
+<li><code>other</code>: Other changes</li>
+</ul>
+</li>
+</ul>
+<p>Usage:
+To use this configuration, ensure that you have Commitlint set up in your project.
+Here’s an example of a valid commit message that would pass this configuration:</p>
+<ul>
+<li><code>feat(config): add support for new environment variables</code></li>
+<li><code>fix(docs): correct typo in installation instructions</code></li>
+<li><code>chore(deps): update dependency version</code></li>
+</ul>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>findDeprecatedFiles.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="directoryPath"></a>
+                    <span class="name">
+                        <span ><b>directoryPath</b></span>
+                        <a href="#directoryPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>path.join(__dirname, &#x27;src&#x27;)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the path to the &#39;src&#39; directory located in the current module&#39;s directory.</p>
+<p>The <code>__dirname</code> variable contains the absolute path to the directory that
+contains the currently executing script. By using <code>path.join</code>, we create a
+cross-platform compatible path that points to the &#39;src&#39; subdirectory.</p>
+<p>This path will be used later in the script to search for TypeScript files
+that may contain the <code>@deprecated</code> tag.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/env/env.constants.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ENV_VALIDATION_SCHEMA"></a>
+                    <span class="name">
+                        <span ><b>ENV_VALIDATION_SCHEMA</b></span>
+                        <a href="#ENV_VALIDATION_SCHEMA"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Joi.object({
+  /**
+   * The username for the database connection.
+   * This is a required string that should match the database user&#x27;s login credentials.
+   */
+  DATA_SOURCE_USERNAME: Joi.string().required(),
+
+  /**
+   * The password for the database connection.
+   * This is a required string that corresponds to the user&#x27;s password for the database.
+   */
+  DATA_SOURCE_PASSWORD: Joi.string().required(),
+
+  /**
+   * The host address for the database server.
+   * This is required and must be a valid hostname or IP address where the database is hosted.
+   */
+  DATA_SOURCE_HOST: Joi.string().required(),
+
+  /**
+   * The port number on which the database server is running.
+   * This is required and must be a valid number representing the port used to connect to the database.
+   */
+  DATA_SOURCE_PORT: Joi.number().required(),
+
+  /**
+   * The name of the database to connect to.
+   * This is a required string representing the specific database within the server.
+   */
+  DATA_SOURCE_DATABASE: Joi.string().required(),
+
+  /**
+   * The full URL for the database connection.
+   * This is a required string that combines the database credentials and host information into a single connection string.
+   */
+  DATA_SOURCE_URL: Joi.string().required(),
+
+  /**
+   * The secret key used for signing JSON Web Tokens (JWT).
+   * This is a required string and must be securely set to ensure the integrity and security of JWT authentication.
+   */
+  JWT_SECRET_KEY: Joi.string().required(),
+
+  /**
+   * The environment in which the application is running.
+   * This is a required string that must be set to either &#x27;development&#x27;, &#x27;production&#x27;, or other recognized environments.
+   */
+  NODE_ENV: Joi.string().required()
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>ENV_VALIDATION_SCHEMA</code> is a Joi schema used to validate environment variables
+in the application. This ensures that the necessary environment variables are provided and
+meet the expected data types, preventing the application from starting with invalid or missing configuration.</p>
+<p>Each environment variable is validated with the following rules:</p>
+<ul>
+<li><code>DATA_SOURCE_USERNAME</code>: The username for the database connection (required).</li>
+<li><code>DATA_SOURCE_PASSWORD</code>: The password for the database connection (required).</li>
+<li><code>DATA_SOURCE_HOST</code>: The hostname for the database server (required).</li>
+<li><code>DATA_SOURCE_PORT</code>: The port number for the database server (required, must be a number).</li>
+<li><code>DATA_SOURCE_DATABASE</code>: The name of the database (required).</li>
+<li><code>DATA_SOURCE_URL</code>: The full connection URL for the database, typically combining the above credentials (required).</li>
+<li><code>JWT_SECRET_KEY</code>: The secret key used for signing JSON Web Tokens (JWT) (required).</li>
+<li><code>NODE_ENV</code>: The environment in which the application is running (e.g., &#39;development&#39;, &#39;production&#39;) (required).</li>
+</ul>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/auth/decorators/ipAddress.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IpAddress"></a>
+                    <span class="name">
+                        <span ><b>IpAddress</b></span>
+                        <a href="#IpAddress"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createParamDecorator(
+  (data: string, ctx: ExecutionContext) &#x3D;&gt; {
+    const request &#x3D; ctx.switchToHttp().getRequest&lt;CustomRequest&gt;();
+
+    const ip &#x3D; request.headers[&#x27;x-forwarded-for&#x27;] as string;
+
+    if (ip &amp;&amp; process.env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;) {
+      return ip.split(&#x27;,&#x27;)[0].replace(&#x27;,&#x27;, &#x27;&#x27;);
+    }
+
+    return ip ?? &#x27;127.0.0.1&#x27;;
+  }
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom decorator to extract the client&#39;s IP address from the request.</p>
+<p>This decorator checks the &#39;x-forwarded-for&#39; header to determine the
+originating IP address of the client, which is particularly useful
+when the application is behind a proxy or load balancer.</p>
+<p>In production environments, the IP is taken from the &#39;x-forwarded-for&#39;
+header, and it splits the address string to retrieve the first IP,
+ensuring accuracy. If the IP is not found or the application is
+running in development, it defaults to &#39;127.0.0.1&#39;.</p>
+<p>Usage: <code>@IpAddress()</code> can be used in route handlers to get the IP
+address of the client.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/validators/is-password.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IS_PASSWORD_KEY"></a>
+                    <span class="name">
+                        <span ><b>IS_PASSWORD_KEY</b></span>
+                        <a href="#IS_PASSWORD_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;isPassword&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IS_PASSWORD_KEY</code> constant is a unique identifier used for the <code>IsPassword</code> validation decorator.</p>
+<p>This key is essential for the <code>class-validator</code> library to recognize and manage the password validation
+logic associated with the <code>IsPassword</code> decorator. By providing a specific identifier, it helps maintain
+consistency and avoids naming collisions with other validation decorators in the application.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPassword"></a>
+                    <span class="name">
+                        <span ><b>isPassword</b></span>
+                        <a href="#isPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(value: string): boolean &#x3D;&gt; matches(value, passwordRegex)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>isPassword</code> function checks if the given value matches the defined password regex.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IsPassword"></a>
+                    <span class="name">
+                        <span ><b>IsPassword</b></span>
+                        <a href="#IsPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  validationOptions?: ValidationOptions
+): PropertyDecorator &#x3D;&gt; {
+  return ValidateBy({
+    name: IS_PASSWORD_KEY,
+    validator: {
+      validate: (value): boolean &#x3D;&gt; isPassword(value),
+      defaultMessage: buildMessage(
+        (eachPrefix) &#x3D;&gt; eachPrefix + &#x27;$property must be valid&#x27;,
+        validationOptions
+      )
+    }
+  });
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IsPassword</code> function creates a custom validator that uses the <code>isPassword</code> function to validate the input.
+It returns a decorator that can be applied to class properties to enforce password requirements.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordRegex"></a>
+                    <span class="name">
+                        <span ><b>passwordRegex</b></span>
+                        <a href="#passwordRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*[@$!%*?&amp;])[a-zA-Z\d@$!%*?&amp;]{8,20}$/</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IsPassword</code> decorator validates that a given value meets specific password complexity requirements.</p>
+<p>Password Requirements:</p>
+<ul>
+<li>Length: Must be between 8 to 20 characters.</li>
+<li>Must include at least:<ul>
+<li>One lowercase letter (a-z).</li>
+<li>One uppercase letter (A-Z).</li>
+<li>One special character (e.g.,</li>
+</ul>
+</li>
+</ul>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/auth/decorators/public.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IS_PUBLIC_KEY"></a>
+                    <span class="name">
+                        <span ><b>IS_PUBLIC_KEY</b></span>
+                        <a href="#IS_PUBLIC_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;isPublic&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IS_PUBLIC_KEY</code> constant is a unique identifier used in conjunction with the
+<code>Public</code> decorator to mark routes as public.</p>
+<p>This key is crucial for route guards to identify whether a particular route
+should bypass authentication checks. By setting the metadata key to <code>true</code>,
+it clearly indicates that the route is open to all users, regardless of their
+authentication status.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Public"></a>
+                    <span class="name">
+                        <span ><b>Public</b></span>
+                        <a href="#Public"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; SetMetadata(IS_PUBLIC_KEY, true)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom decorator to mark a route as public.</p>
+<p>When applied to a route handler, this decorator sets a metadata
+key (<code>isPublic</code>) to <code>true</code>, indicating that the route should be
+accessible without authentication.</p>
+<p>This is useful for public endpoints, such as login and registration,
+where no authentication is required.</p>
+<p>Usage: <code>@Public()</code> can be used above route handler methods.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/validators/is-username.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IS_USERNAME_KEY"></a>
+                    <span class="name">
+                        <span ><b>IS_USERNAME_KEY</b></span>
+                        <a href="#IS_USERNAME_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;isUsername&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IS_USERNAME_KEY</code> constant serves as a unique identifier for the <code>IsUsername</code> validation decorator.</p>
+<p>This key is crucial for the <code>class-validator</code> library to recognize and manage the username validation
+logic associated with the <code>IsUsername</code> decorator. It ensures that the validation process is consistent
+and helps prevent naming conflicts with other validation decorators within the application.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isUsername"></a>
+                    <span class="name">
+                        <span ><b>isUsername</b></span>
+                        <a href="#isUsername"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(value: string): boolean &#x3D;&gt; matches(value, usernameRegex)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>isUsername</code> function checks if the value matches the defined username regex.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IsUsername"></a>
+                    <span class="name">
+                        <span ><b>IsUsername</b></span>
+                        <a href="#IsUsername"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  validationOptions?: ValidationOptions
+): PropertyDecorator &#x3D;&gt; {
+  return ValidateBy({
+    name: IS_USERNAME_KEY,
+    validator: {
+      validate: (value): boolean &#x3D;&gt; isUsername(value),
+      defaultMessage: buildMessage(
+        (eachPrefix) &#x3D;&gt; eachPrefix + &#x27;$property must be valid&#x27;,
+        validationOptions
+      )
+    }
+  });
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IsUsername</code> function creates a custom validator that uses the <code>isUsername</code> function to validate the input.
+It returns a decorator that can be applied to class properties to enforce username requirements.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usernameRegex"></a>
+                    <span class="name">
+                        <span ><b>usernameRegex</b></span>
+                        <a href="#usernameRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{3,30}$/</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IsUsername</code> decorator validates that a given value conforms to specific username rules.
+Usernames must be 4 to 30 characters long, cannot start or end with a dot, and must not contain
+consecutive dots. This validation helps ensure that usernames are user-friendly and secure.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/validators/is-boolean.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="IsBoolean"></a>
+                    <span class="name">
+                        <span ><b>IsBoolean</b></span>
+                        <a href="#IsBoolean"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(validationOptions?: ValidationOptions) &#x3D;&gt;
+  applyDecorators(DefaultIsBoolean(validationOptions), ToBoolean())</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>IsBoolean</code> decorator is a custom validation decorator that checks if a value is a boolean.
+It combines the default <code>IsBoolean</code> validator from <code>class-validator</code> with the <code>ToBoolean</code> transformation
+to ensure that input values are treated as booleans after conversion.</p>
+<p>This is particularly useful for validating boolean values from query parameters or forms,
+allowing the decorator to handle string representations of boolean values (e.g., &quot;true&quot;, &quot;false&quot;).</p>
+<p>The <code>IsBoolean</code> function applies the default boolean validation and the <code>ToBoolean</code> transformation.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/transforms/to-boolean.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toBoolean"></a>
+                    <span class="name">
+                        <span ><b>toBoolean</b></span>
+                        <a href="#toBoolean"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(value: unknown) &#x3D;&gt; {
+  switch (value) {
+    case null:
+      return &#x27;failure&#x27;;
+
+    case &#x27;true&#x27;:
+      return true;
+
+    case &#x27;false&#x27;:
+      return false;
+
+    default:
+      return value;
+  }
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>ToBoolean</code> decorator transforms a given value into a boolean type based on specific conditions.
+This is particularly useful for handling values that may come from query parameters or form submissions,
+where boolean values can be represented as strings (e.g., &quot;true&quot;, &quot;false&quot;).</p>
+<p>The transformation logic is encapsulated in the <code>toBoolean</code> function, which processes the input value:</p>
+<ul>
+<li>Returns <code>true</code> for the string &quot;true&quot;.</li>
+<li>Returns <code>false</code> for the string &quot;false&quot;.</li>
+<li>Returns &#39;failure&#39; if the value is <code>null</code>.</li>
+<li>For any other value, it returns the original value.</li>
+</ul>
+<p>This decorator can be applied to class properties to automatically convert incoming values to booleans.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ToBoolean"></a>
+                    <span class="name">
+                        <span ><b>ToBoolean</b></span>
+                        <a href="#ToBoolean"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; Transform(({ obj, key }) &#x3D;&gt; toBoolean(obj[key]))</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The <code>ToBoolean</code> decorator uses <code>Transform</code> from <code>class-transformer</code> to apply the <code>toBoolean</code> function
+to the specified property during the transformation process.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/auth/decorators/user.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="User"></a>
+                    <span class="name">
+                        <span ><b>User</b></span>
+                        <a href="#User"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createParamDecorator(
+  (data: &#x27;user&#x27; | &#x27;session&#x27;, ctx: ExecutionContext) &#x3D;&gt; {
+    const request &#x3D; ctx.switchToHttp().getRequest&lt;CustomRequest&gt;();
+    return data ? request.user?.[data] : request.user;
+  }
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom decorator to extract user information from the request.</p>
+<p>This decorator allows easy access to the authenticated user or
+specific user-related data (such as session information) from the
+request object. It retrieves the user data set in the request
+during authentication.</p>
+<p>Usage:</p>
+<ul>
+<li><code>@User()</code> retrieves the entire user object.</li>
+<li><code>@User(&#39;user&#39;)</code> or <code>@User(&#39;session&#39;)</code> retrieves specific properties
+from the user object, as indicated by the provided string.</li>
+</ul>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/auth/decorators/user-agent.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserAgent"></a>
+                    <span class="name">
+                        <span ><b>UserAgent</b></span>
+                        <a href="#UserAgent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createParamDecorator(
+  (data: unknown, ctx: ExecutionContext): Device &#x3D;&gt; {
+    const request &#x3D; ctx.switchToHttp().getRequest();
+    const userAgent &#x3D; request.headers[&#x27;user-agent&#x27;];
+
+    // Default device initialization
+    const defaultDevice: Device &#x3D; {
+      name: &#x27;unknown&#x27;
+    };
+
+    if (!userAgent) {
+      return defaultDevice;
+    }
+
+    // Define device patterns
+    const devicePatterns &#x3D; [
+      {
+        name: &#x27;iOS&#x27;,
+        regex: /like Mac OS X/,
+        versionRegex: /CPU( iPhone)? OS ([0-9\._]+) like Mac OS X/
+      },
+      {
+        name: &#x27;Android&#x27;,
+        regex: /Android/,
+        versionRegex: /Android ([0-9\.]+)[\);]/
+      },
+      {
+        name: &#x27;macOS&#x27;,
+        regex: /(Intel|PPC) Mac OS X/,
+        versionRegex: /(Intel|PPC) Mac OS X ?([0-9\._]*)[\)\;]/
+      },
+      {
+        name: &#x27;Windows&#x27;,
+        regex: /Windows NT/,
+        versionRegex: /Windows NT ([0-9\._]+)[\);]/
+      },
+      {
+        name: &#x27;Linux&#x27;,
+        regex: /Linux/i,
+        versionRegex: null // No version regex for Linux
+      }
+    ];
+
+    // Check against patterns
+    for (const { name, regex, versionRegex } of devicePatterns) {
+      if (regex.test(userAgent)) {
+        return {
+          name,
+          version: versionRegex
+            ? userAgent.match(versionRegex)?.[1]?.replace(/_/g, &#x27;.&#x27;)
+            : undefined
+        };
+      }
+    }
+
+    return defaultDevice;
+  }
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom decorator to extract the user&#39;s device information from the request.</p>
+<p>This decorator analyzes the &#39;user-agent&#39; header of the incoming request
+to determine the device type and version. It supports various operating
+systems, including iOS, Android, macOS, Windows, and Linux.</p>
+<p>If the user-agent string doesn&#39;t match any known patterns, the device
+is set to &#39;unknown&#39;. This information can be valuable for analytics,
+user experience improvements, and security checks.</p>
+<p>Usage: <code>@UserAgent()</code> can be used in route handlers to get the device
+information of the client.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/util/common.constants.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VALIDATION_PIPE_OPTIONS"></a>
+                    <span class="name">
+                        <span ><b>VALIDATION_PIPE_OPTIONS</b></span>
+                        <a href="#VALIDATION_PIPE_OPTIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ValidationPipeOptions</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  whitelist: true,
+  forbidNonWhitelisted: true,
+  transform: true,
+  transformOptions: {
+    enableImplicitConversion: true
+  }
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p><code>VALIDATION_PIPE_OPTIONS</code> defines the configuration options for the global <code>ValidationPipe</code>.
+This object is used to customize how validation is applied to incoming request data.</p>
+<ul>
+<li><code>whitelist</code>: Automatically strips out any properties that are not defined in the DTO, ensuring only
+validated properties are accepted.</li>
+<li><code>forbidNonWhitelisted</code>: Throws an error if any non-whitelisted properties are present in the request body.</li>
+<li><code>transform</code>: Automatically transforms payloads to their corresponding types as defined by the DTO.</li>
+<li><code>transformOptions.enableImplicitConversion</code>: Allows implicit type conversion (e.g., string to number) based on the DTO types.</li>
+</ul>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

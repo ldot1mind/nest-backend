@@ -19,6 +19,11 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { UsersModule } from 'users/users.module';
 import { SessionsModule } from 'sessions/sessions.module';
 
+/**
+ * The `AuthModule` is responsible for managing authentication functionalities within the application.
+ * It imports necessary modules, registers providers, and sets up guards for protecting routes.
+ * This module handles user registration, login, JWT management, and session control.
+ */
 @Module({
   imports: [
     JwtModule.registerAsync(jwtConfig.asProvider()),
@@ -43,6 +48,12 @@ import { SessionsModule } from 'sessions/sessions.module';
   exports: [HashingProvider]
 })
 export class AuthModule implements NestModule {
+  /**
+   * Configures middleware for the authentication module.
+   * This includes applying the login validation middleware specifically to the login route.
+   *
+   * @param consumer - The middleware consumer to apply the middleware to specific routes.
+   */
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoginValidationMiddleware).forRoutes('auth/login');
   }

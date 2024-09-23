@@ -20,16 +20,35 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CustomAuth } from 'common/interfaces/custom-request.interface';
 
+/**
+ * The `AuthController` handles incoming requests related to authentication.
+ * It provides endpoints for user registration, login, profile retrieval, and password changes.
+ * The controller utilizes guards to protect certain routes and enforces authentication where necessary.
+ */
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Registers a new user using the provided registration data.
+   *
+   * @param registerUserDto - The DTO containing user registration details.
+   * @returns The created user entity.
+   */
   @Public()
   @Post('register')
   register(@Body() registerUserDto: RegisterUserDto) {
     return this.authService.register(registerUserDto);
   }
 
+  /**
+   * Logs in a user, creating a session and returning a JWT token.
+   *
+   * @param user - The authenticated user entity injected by the `LocalAuthGuard`.
+   * @param ip - The user's IP address, retrieved via the `IpAddress` decorator.
+   * @param device - The device information, retrieved via the `UserAgent` decorator.
+   * @returns An object containing user information and the generated JWT token.
+   */
   @Public()
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
@@ -42,12 +61,25 @@ export class AuthController {
     return this.authService.login(user, ip, device);
   }
 
+  /**
+   * Retrieves the authenticated user's profile.
+   *
+   * @param user - The authenticated user entity injected by the `JwtAuthGuard`.
+   * @returns The user's profile without sensitive information.
+   */
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@User('user') user: UserEntity) {
     return this.authService.getProfile(user);
   }
 
+  /**
+   * Changes the user's password after validating the current password.
+   *
+   * @param authData - The authentication context containing user and session data.
+   * @param changePasswordDto - The DTO containing new password information.
+   * @returns Confirmation of password change.
+   */
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Post('change-password')
