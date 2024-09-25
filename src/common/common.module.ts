@@ -1,7 +1,8 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { VALIDATION_PIPE_OPTIONS } from './util/common.constants';
 import { EnvModule } from './env/env.module';
+import { DataResponseInterceptor } from './interceptors/data-response/data-response.interceptor';
 
 /**
  * The `CommonModule` provides shared functionality across the application.
@@ -21,14 +22,22 @@ import { EnvModule } from './env/env.module';
   imports: [EnvModule],
 
   /**
-   * The `providers` array sets up the global validation pipe.
+   * The `providers` array sets up the global validation pipe and response interceptor.
    * - `APP_PIPE` is a special NestJS token used to apply the validation pipe globally.
    * - `useValue` is used to instantiate the `ValidationPipe` with predefined options from `VALIDATION_PIPE_OPTIONS`.
+   * - `APP_INTERCEPTOR` is used to apply the `DataResponseInterceptor` globally, modifying all outgoing responses.
    */
   providers: [
+    /* Setting the ValidationPipe globally with custom validation options */
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe(VALIDATION_PIPE_OPTIONS)
+    },
+
+    /* Setting the DataResponseInterceptor globally to format outgoing responses */
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataResponseInterceptor
     }
   ]
 })

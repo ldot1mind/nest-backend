@@ -2,6 +2,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import compression from 'compression';
+import { VersioningType } from '@nestjs/common';
 
 /**
  * Define an asynchronous function to bootstrap the application
@@ -27,6 +28,11 @@ async function bootstrap() {
       threshold: 1024
     })
   );
+
+  // Enable URI-based versioning
+  app.enableVersioning({
+    type: VersioningType.URI
+  });
 
   /**
    * Start listening for incoming requests on port 8080

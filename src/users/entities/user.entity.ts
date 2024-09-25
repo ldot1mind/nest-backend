@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
 import { UserRole } from 'common/enums/user-role.enum';
 import { UserStatus } from 'common/enums/user-status.enum';
@@ -5,53 +6,90 @@ import { Session } from 'sessions/entities/session.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
- * The User entity represents a user in the system.
- * It defines the user's attributes, such as ID, email, username, password, role, and status,
- * and includes relationships with other entities like sessions.
+ * The `User` entity represents a user within the system. It contains key properties
+ * like ID, email, username, password, role, status, and relationships to other entities such as sessions.
+ * Many fields are excluded from serialization for security reasons, utilizing the `@Exclude()` decorator.
  */
 @Entity()
 export class User {
-  /** The unique identifier for the user, auto-generated as a UUID */
+  /**
+   * The unique identifier for the user, auto-generated as a UUID.
+   * This field is excluded from responses using `@Exclude()` for privacy.
+   */
   @PrimaryGeneratedColumn('uuid')
+  @Exclude()
   id: string;
 
-  /** The user's name, which is optional and not included in select queries by default */
+  /**
+   * The user's name, which is optional.
+   * This field is not included in select queries by default, meaning it must be explicitly requested.
+   */
   @Column({ length: 50, nullable: true, select: false })
   name: string;
 
-  /** The user's email address, which must be unique */
+  /**
+   * The user's email address, which must be unique across the system.
+   * It serves as a primary identifier alongside the username.
+   */
   @Column({ unique: true })
   email: string;
 
-  /** The user's unique username, limited to 30 characters */
+  /**
+   * The user's unique username, which can be up to 30 characters long.
+   * This is a required field and must be unique across all users.
+   */
   @Column({ unique: true, length: 30 })
   username: string;
 
-  /** The user's password, which is not selected in queries by default for security reasons */
+  /**
+   * The user's password, which is excluded from selection queries by default to ensure security.
+   * The `@Exclude()` decorator ensures that it will not be exposed in serialized responses.
+   */
   @Column({ select: false })
+  @Exclude()
   password: string;
 
-  /** The status of the user, stored as an enum value, defaulting to "DEACTIVATE" */
+  /**
+   * The current status of the user, represented by an enum value (`UserStatus`).
+   * By default, the user status is set to `DEACTIVATE`.
+   * This field is excluded from serialized responses using `@Exclude()`.
+   */
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.DEACTIVATE })
+  @Exclude()
   status: UserStatus;
 
-  /** The role of the user, stored as an enum value, defaulting to "USER" */
+  /**
+   * The role of the user, represented by an enum value (`UserRole`).
+   * By default, the user role is set to `USER`.
+   * This field is excluded from serialized responses using `@Exclude()`.
+   */
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  @Exclude()
   role: UserRole;
 
-  /** Embedded column for tracking registry dates like creation and deletion timestamps */
+  /**
+   * Embedded column that tracks important registry dates such as creation and deletion timestamps.
+   * This field is also excluded from serialized responses using `@Exclude()`.
+   */
   @Column(() => RegistryDates, { prefix: false })
+  @Exclude()
   registryDates: RegistryDates;
 
-  /** Relationship to the Session entity, allowing for soft-removal of related sessions */
+  /**
+   * Defines a one-to-many relationship with the `Session` entity.
+   * This allows for the soft removal and recovery of sessions tied to the user.
+   * - `cascade: ['soft-remove', 'recover']`: Automatically cascades soft removal and recovery operations.
+   */
   @OneToMany(() => Session, (session) => session.owner, {
     cascade: ['soft-remove', 'recover']
   })
   sessions: Session[];
 
   /**
-   * Getter to check if the user has been soft-deleted by inspecting the deletion timestamp.
-   * @returns True if the user is soft-deleted, false otherwise.
+   * Checks if the user has been soft-deleted by examining the `deleteAt` timestamp.
+   * If the timestamp exists, the user is considered soft-deleted.
+   *
+   * @returns `true` if the user is soft-deleted, `false` otherwise.
    */
   get isDeleted() {
     return !!this.registryDates.deleteAt;

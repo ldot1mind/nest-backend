@@ -48,16 +48,9 @@ export class AuthService {
    */
   async register(registerUserDto: RegisterUserDto) {
     try {
-      const user = await this.usersService.create({
+      return await this.usersService.create({
         ...registerUserDto
       });
-
-      // Remove sensitive fields before returning the user
-      delete user.password;
-      delete user.role;
-      delete user.status;
-
-      return user;
     } catch (error) {
       throw error;
     }
@@ -80,9 +73,8 @@ export class AuthService {
     // Create a session for the user
     await this.sessionsService.create(user.id, token, ip, device);
 
-    // Return the user information along with the token
+    // Return the token
     return {
-      ...user,
       token
     };
   }
@@ -94,12 +86,6 @@ export class AuthService {
    * @returns The user's profile with sensitive fields like password and role removed.
    */
   async getProfile(user: User) {
-    // Remove sensitive fields from the user object
-    delete user.password;
-    delete user.id;
-    delete user.role;
-    delete user.status;
-
     return user;
   }
 
