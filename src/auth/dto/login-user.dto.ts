@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { IsPassword } from 'common/decorators/validators/is-password.decorator';
 
@@ -24,6 +25,11 @@ export class LoginUserDto {
    * to log in using either their email or username, providing flexibility
    * in how users access their accounts.
    */
+  @ApiProperty({
+    description:
+      'The email address or username of the user, must be a non-empty string.',
+    example: 'user@example.com'
+  })
   @IsNotEmpty()
   @IsString()
   readonly email: string;
@@ -35,6 +41,11 @@ export class LoginUserDto {
    * `IsPassword` decorator. It ensures that the password is strong enough
    * to protect the user's account from unauthorized access.
    */
+  @ApiProperty({
+    description:
+      'The password must meet security standards enforced by the application.',
+    example: 'SecurePassword@1234'
+  })
   @IsPassword()
   readonly password: string;
 }

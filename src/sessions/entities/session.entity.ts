@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Device } from 'common/interfaces/device.interface';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from 'users/entities/user.entity';
@@ -17,48 +18,70 @@ export class Session {
    * The unique identifier for the session.
    * This is automatically generated as a UUID (Universal Unique Identifier).
    */
+  @ApiProperty({
+    description: 'The unique identifier for the session (UUID).',
+    example: 'a1b2c3d4-e5f6-7890-1234-56789abcdef0'
+  })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   /**
    * The session's authentication token.
    * This token is unique and used to identify the session when validating user requests.
-   * For security reasons, this field must remain unique for each session.
    */
+  @ApiProperty({
+    description: 'The unique token for this session used for authentication.',
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  })
   @Column({ unique: true })
   token: string;
 
   /**
    * JSON object representing the device information for this session.
-   * This typically includes details like the device's type, operating system,
-   * browser, and other relevant metadata that helps identify the user's device.
+   * Includes details like the device's type, operating system, browser, etc.
    */
+  @ApiProperty({
+    description:
+      'JSON object representing the device details for this session.',
+    example: {
+      deviceType: 'mobile',
+      os: 'iOS',
+      browser: 'Safari',
+      browserVersion: '14.0'
+    }
+  })
   @Column({ type: 'json' })
   device: Device;
 
   /**
    * The IP address from which the session was initiated.
-   * This is used to track the location or network from which the user accessed the application.
-   * It may also be used for security purposes, such as detecting unusual login locations.
+   * Used to track the user's access point and for security checks.
    */
+  @ApiProperty({
+    description: 'The IP address from which the session was initiated.',
+    example: '192.168.1.100'
+  })
   @Column()
   ip: string;
 
   /**
-   * The expiration date of the session.
-   * This indicates when the session will no longer be valid.
-   * Typically, the session is automatically invalidated once this date is in the past.
+   * The expiration date of the session, after which it becomes invalid.
    */
+  @ApiProperty({
+    description: 'The expiration date of the session.',
+    example: '2024-09-25T10:00:00.000Z'
+  })
   @Column()
   expiryDate: Date;
 
   /**
    * The user who owns this session.
-   * Represents a Many-to-One relationship with the `User` entity, meaning that one user can have multiple sessions.
-   * This relationship is essential for linking sessions back to the authenticated user.
+   * This establishes a Many-to-One relationship with the `User` entity.
    */
-  @ManyToOne(() => User, (user) => user.id, {
-    nullable: false // Ensures that a session must always be associated with a user.
+  @ApiProperty({
+    description: 'The user who owns this session.',
+    type: () => User
   })
+  @ManyToOne(() => User, (user) => user.sessions, { nullable: false })
   owner: User;
 }

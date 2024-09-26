@@ -1,3 +1,4 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { IsBoolean } from 'common/decorators/validators/is-boolean.decorator';
 
@@ -15,11 +16,34 @@ import { IsBoolean } from 'common/decorators/validators/is-boolean.decorator';
  */
 export class RemoveDto {
   /**
-   * The `soft` field determines if the deletion should be a soft delete.
-   * - `@IsOptional()`: The field is optional and does not need to be provided in the request.
-   * - `@IsBoolean()`: Validates that, if provided, the value is a boolean (either `true` or `false`).
+   * The 'soft' property indicates whether the delete operation should
+   * be a soft delete. This property is optional and should be of type boolean.
+   */
+  @ApiPropertyOptional({
+    /**
+     * Description of the 'soft' property, clarifying that it is optional
+     * and defines the behavior of the delete operation.
+     */
+    description:
+      'The "soft" property is optional and indicates whether to perform a soft delete.'
+  })
+
+  /**
+   * Indicates that the 'soft' property is optional in the request.
+   * If not provided, the default delete behavior will apply.
    */
   @IsOptional()
+
+  /**
+   * Validates that the 'soft' property, if provided, must be a boolean value.
+   * This ensures that the input meets the expected data type requirements.
+   */
   @IsBoolean()
+
+  /**
+   * Declares the property as read-only, meaning it cannot be modified
+   * after the instance of this DTO is created. This is a common practice
+   * for request DTOs to maintain data integrity.
+   */
   readonly soft: boolean;
 }

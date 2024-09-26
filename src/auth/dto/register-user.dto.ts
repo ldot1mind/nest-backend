@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
 import { IsPassword } from 'common/decorators/validators/is-password.decorator';
 import { IsUsername } from 'common/decorators/validators/is-username.decorator';
@@ -36,6 +37,11 @@ export class RegisterUserDto {
    * is enforced by the `@IsEmail()` decorator from the `class-validator`
    * library.
    */
+  @ApiProperty({
+    description:
+      'A valid email address used for account verification and communication.',
+    example: 'user@example.com'
+  })
   @IsEmail()
   readonly email: string;
 
@@ -46,6 +52,11 @@ export class RegisterUserDto {
    * decorator. This typically includes length restrictions and rules against
    * invalid characters to ensure a valid and user-friendly username.
    */
+  @ApiProperty({
+    description:
+      'The username for the new account, adhering to specified format criteria.',
+    example: 'new_user123'
+  })
   @IsUsername()
   readonly username: string;
 
@@ -56,6 +67,10 @@ export class RegisterUserDto {
    * `IsPassword` decorator. It ensures that the password is sufficiently strong
    * to protect the user account from unauthorized access and security threats.
    */
+  @ApiProperty({
+    description: 'The password must meet the required security standards.',
+    example: 'SecurePassword@1234'
+  })
   @IsPassword()
   readonly password: string;
 }

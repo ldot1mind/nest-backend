@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 
 /**
@@ -13,21 +14,37 @@ import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
  */
 export class RegistryDates {
   /**
-   * The `createdAt` column automatically captures the date and time when the entity is first created.
+   * The timestamp for when the entity was created.
+   * This column is automatically set by the database.
    */
+  @ApiProperty({
+    description: 'The date and time when the entity was created.',
+    example: '2023-09-25T12:34:56.789Z'
+  })
   @CreateDateColumn()
   createdAt: Date;
 
   /**
-   * The `updatedAt` column automatically updates with the current date and time whenever the entity is modified.
+   * The timestamp for when the entity was last updated.
+   * This column is automatically updated by the database whenever the entity is modified.
    */
+  @ApiProperty({
+    description: 'The date and time when the entity was last updated.',
+    example: '2023-09-25T14:00:00.000Z'
+  })
   @UpdateDateColumn()
   updatedAt: Date;
 
   /**
-   * The `deleteAt` column records the date and time when the entity is soft-deleted.
-   * Soft deletion allows the entity to remain in the database but be marked as deleted, making it recoverable if needed.
+   * The timestamp for when the entity was soft-deleted (if applicable).
+   * A soft delete marks the entity as deleted without removing it from the database.
    */
+  @ApiProperty({
+    description:
+      'The date and time when the entity was soft-deleted. This is null if not deleted.',
+    example: '2023-09-26T09:00:00.000Z',
+    nullable: true
+  })
   @DeleteDateColumn()
   deleteAt: Date;
 }

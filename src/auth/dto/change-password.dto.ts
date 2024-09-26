@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsPassword } from 'common/decorators/validators/is-password.decorator';
 
 /**
@@ -23,6 +24,10 @@ export class ChangePasswordDto {
    * the `IsPassword` decorator. It verifies that the user's current
    * password is strong enough to prevent unauthorized changes.
    */
+  @ApiProperty({
+    description: 'The current password must meet security standards.',
+    example: 'StrongPassword@1234'
+  })
   @IsPassword()
   readonly currentPassword: string;
 
@@ -33,6 +38,10 @@ export class ChangePasswordDto {
    * the current password, ensuring that the new password is strong,
    * secure, and meets the application's password complexity requirements.
    */
+  @ApiProperty({
+    description: 'The new password must also meet security standards.',
+    example: 'NewStrongPassword@5678'
+  })
   @IsPassword()
   readonly newPassword: string;
 }
