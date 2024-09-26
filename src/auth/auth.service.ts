@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -94,7 +95,7 @@ export class AuthService {
    *
    * @param auth - The authentication context containing the user and session data.
    * @param changePasswordDto - Data Transfer Object containing the current and new passwords.
-   * @throws UnauthorizedException if the current password is invalid or the new password is the same as the old one.
+   * @throws BadRequestException if the current password is invalid or the new password is the same as the old one.
    */
   async changePassword(
     { user, session }: CustomAuth,
@@ -106,7 +107,7 @@ export class AuthService {
       user.password
     );
 
-    if (!isMatch) throw new UnauthorizedException('Invalid current password');
+    if (!isMatch) throw new BadRequestException('Invalid current password');
 
     // If the passwords are different, update the user's password
     if (currentPassword !== newPassword) {

@@ -21,7 +21,15 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CustomAuth } from 'common/interfaces/custom-request.interface';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiInternalServerErrorResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse
+} from '@nestjs/swagger';
+import { LoginResponseDto } from './dto/login-response.dto';
 
 /**
  * The `AuthController` handles incoming requests related to authentication.
@@ -55,6 +63,18 @@ export class AuthController {
   @Public()
   @Post('register')
   @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ summary: 'Register a new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully registered',
+    type: RegisterUserDto // Adjust to your response DTO
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid input data'
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Unexpected error occurred'
+  })
   register(@Body() registerUserDto: RegisterUserDto) {
     return this.authService.register(registerUserDto);
   }
@@ -82,6 +102,15 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ summary: 'User login' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully logged in',
+    type: LoginResponseDto
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid credentials'
+  })
   login(
     @User() user: UserEntity,
     @IpAddress() ip: string,
@@ -106,6 +135,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ summary: 'Get user profile' })
+  @ApiResponse({
+    status: 200,
+    description: 'User profile retrieved successfully',
+    type: UserEntity
+  })
   getProfile(@User('user') user: UserEntity) {
     return this.authService.getProfile(user);
   }
@@ -125,9 +160,30 @@ export class AuthController {
    * @param changePasswordDto - The DTO containing current and new password details.
    * @returns A confirmation message indicating successful password change.
    */
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   @Post('change-password')
+  @ApiOperation({
+    summary: 'Change user password',
+    description:
+      'This endpoint allows the user to change their password. The current password must be provided for validation.'
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Password changed successfully'
+  })
+  @ApiBadRequestResponse({
+    description:
+      'Invalid input data, including an incorrect current password or other validation errors'
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      'Unauthorized: User must be authenticated to change the password'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error'
+  })
   changePassword(
     @User() authData: CustomAuth,
     @Body() changePasswordDto: ChangePasswordDto
