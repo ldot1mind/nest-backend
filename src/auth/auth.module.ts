@@ -18,6 +18,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UsersModule } from 'users/users.module';
 import { SessionsModule } from 'sessions/sessions.module';
+import { RolesGuard } from './guards/roles.gurad';
 
 /**
  * The `AuthModule` is responsible for managing authentication functionalities within the application.
@@ -43,6 +44,10 @@ import { SessionsModule } from 'sessions/sessions.module';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard
     }
   ],
   exports: [HashingProvider]

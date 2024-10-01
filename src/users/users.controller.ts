@@ -6,7 +6,8 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
 import { IdDto } from 'common/dto/id.dto';
 import { RemoveDto } from 'common/dto/remove.dto';
@@ -22,20 +23,31 @@ import {
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { ErrorResponseDto } from 'common/dto/error-reponse.dto';
+import { RolesGuard } from 'auth/guards/roles.gurad';
+import { UserRole } from 'common/enums/user-role.enum';
+import { Roles } from 'auth/decorators/roles.decorator';
 
 /**
- * UsersController handles HTTP requests related to user management.
- * It defines endpoints for creating, retrieving, updating, and deleting users.
+ * The `UsersController` is responsible for handling all incoming HTTP requests related to managing user entities.
+ * This includes creating, retrieving, updating, and deleting users. The controller is protected by the `RolesGuard`
+ * and is only accessible to users with the `ADMIN` role.
  */
 @Controller('users')
+@UseGuards(RolesGuard)
+@Roles(UserRole.ADMIN)
 @ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   /**
-   * Endpoint to create a new user.
-   * @param createUserDto - Data Transfer Object containing user creation details.
-   * @returns The created user entity.
+   * Handles the creation of a new user.
+   *
+   * **Decorators:**
+   * - `@Post()`: Marks this as a POST request to create a new user.
+   * - `@Body()`: Binds the incoming request body to the `CreateUserDto`.
+   *
+   * @param createUserDto - The DTO containing the new user's details.
+   * @returns The newly created user entity.
    */
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
@@ -59,8 +71,12 @@ export class UsersController {
   }
 
   /**
-   * Endpoint to retrieve all users.
-   * @returns An array of user entities.
+   * Fetches all users.
+   *
+   * **Decorators:**
+   * - `@Get()`: Marks this as a GET request to retrieve all users.
+   *
+   * @returns An array of all user entities in the system.
    */
   @Get()
   @ApiOperation({
@@ -80,9 +96,14 @@ export class UsersController {
   }
 
   /**
-   * Endpoint to retrieve a single user by ID.
-   * @param id - The ID of the user.
-   * @returns The found user entity.
+   * Fetches a single user based on the provided ID.
+   *
+   * **Decorators:**
+   * - `@Get(':id')`: Marks this as a GET request to retrieve a user by their ID.
+   * - `@Param()`: Extracts the ID parameter from the request URL.
+   *
+   * @param id - The unique identifier of the user to be retrieved.
+   * @returns The found user entity, or an error if not found.
    */
   @Get(':id')
   @ApiOperation({
@@ -109,16 +130,21 @@ export class UsersController {
   }
 
   /**
-   * Endpoint to update an existing user by ID.
-   * @param id - The ID of the user.
-   * @param updateUserDto - Data Transfer Object containing updated user details.
-   * @returns The updated user entity.
+   * Updates an existing user by ID.
+   *
+   * **Decorators:**
+   * - `@Patch(':id')`: Marks this as a PATCH request to update the user by their ID.
+   * - `@Param()`: Extracts the user ID from the request URL.
+   * - `@Body()`: Binds the incoming request body to the `UpdateUserDto`.
+   *
+   * @param id - The ID of the user to be updated.
+   * @param updateUserDto - The DTO containing the updated user details.
+   * @returns The updated user entity or appropriate error messages.
    */
   @Patch(':id')
   @ApiOperation({
     summary: 'Update a user by ID',
-    description:
-      'Updates the user details for the provided ID. Returns detailed error responses for various failure cases.'
+    description: 'Updates the user details for the provided ID.'
   })
   @ApiParam({
     name: 'id',
@@ -138,8 +164,7 @@ export class UsersController {
   })
   @ApiResponse({
     status: 422,
-    description:
-      'Unprocessable Entity: User with this data already exists (e.g., duplicate email or username)',
+    description: 'Unprocessable Entity - Duplicate data conflict',
     type: ErrorResponseDto
   })
   @ApiResponse({
@@ -152,16 +177,21 @@ export class UsersController {
   }
 
   /**
-   * Endpoint to delete (or soft-delete) a user by ID.
-   * @param id - The ID of the user.
-   * @param soft - Flag indicating whether to soft-delete the user.
-   * @returns The result of the delete operation.
+   * Deletes a user by ID, either permanently or via soft delete.
+   *
+   * **Decorators:**
+   * - `@Delete(':id')`: Marks this as a DELETE request to remove a user by their ID.
+   * - `@Param()`: Extracts the user ID from the request URL.
+   * - `@Query()`: Accepts a query parameter `soft` to specify if it's a soft delete.
+   *
+   * @param id - The ID of the user to be deleted.
+   * @param soft - If true, performs a soft delete; otherwise, a hard delete.
+   * @returns A message indicating success or failure.
    */
   @Delete(':id')
   @ApiOperation({
     summary: 'Delete a user',
-    description:
-      'Deletes a user by ID. You can soft delete the user by marking it as deleted or permanently remove it from the database.'
+    description: 'Deletes a user by ID, with an option for soft delete.'
   })
   @ApiParam({
     name: 'id',

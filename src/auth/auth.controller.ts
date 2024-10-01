@@ -14,7 +14,7 @@ import { User as UserEntity } from 'users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { IpAddress } from './decorators/ipAddress.decorator';
 import { Public } from './decorators/public.decorator';
-import { UserAgent } from './decorators/user-agent.decorator';
+import { UserAgent } from './decorators/userAgent.decorator';
 import { User } from './decorators/user.decorator';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
