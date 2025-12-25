@@ -1,8 +1,8 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { VALIDATION_PIPE_OPTIONS } from './util/common.constants';
 import { DataResponseInterceptor } from './interceptors/data-response/data-response.interceptor';
 import { EnvModule } from 'infrastructure/config/env.module';
+import { VALIDATION_PIPE_OPTIONS } from './validation/validation.constants';
 
 /**
  * The `CommonModule` provides shared functionality across the application.
