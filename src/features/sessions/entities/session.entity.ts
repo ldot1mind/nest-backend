@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from 'features/users/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Device } from '../interfaces/device.interface';
+import { SwaggerSessionProperties as SessionProps } from '../sessions.swagger';
 
 /**
  * The `Session` entity represents a user session in the system.
@@ -18,10 +19,7 @@ export class Session {
    * The unique identifier for the session.
    * This is automatically generated as a UUID (Universal Unique Identifier).
    */
-  @ApiProperty({
-    description: 'The unique identifier for the session (UUID).',
-    example: 'a1b2c3d4-e5f6-7890-1234-56789abcdef0'
-  })
+  @ApiProperty(SessionProps.id)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,10 +27,7 @@ export class Session {
    * The session's authentication token.
    * This token is unique and used to identify the session when validating user requests.
    */
-  @ApiProperty({
-    description: 'The unique token for this session used for authentication.',
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-  })
+  @ApiProperty(SessionProps.token)
   @Column({ unique: true })
   token: string;
 
@@ -40,16 +35,7 @@ export class Session {
    * JSON object representing the device information for this session.
    * Includes details like the device's type, operating system, browser, etc.
    */
-  @ApiProperty({
-    description:
-      'JSON object representing the device details for this session.',
-    example: {
-      deviceType: 'mobile',
-      os: 'iOS',
-      browser: 'Safari',
-      browserVersion: '14.0'
-    }
-  })
+  @ApiProperty(SessionProps.device)
   @Column({ type: 'json' })
   device: Device;
 
@@ -57,20 +43,14 @@ export class Session {
    * The IP address from which the session was initiated.
    * Used to track the user's access point and for security checks.
    */
-  @ApiProperty({
-    description: 'The IP address from which the session was initiated.',
-    example: '192.168.1.100'
-  })
+  @ApiProperty(SessionProps.ip)
   @Column()
   ip: string;
 
   /**
    * The expiration date of the session, after which it becomes invalid.
    */
-  @ApiProperty({
-    description: 'The expiration date of the session.',
-    example: '2024-09-25T10:00:00.000Z'
-  })
+  @ApiProperty(SessionProps.expiryDate)
   @Column()
   expiryDate: Date;
 
@@ -78,10 +58,7 @@ export class Session {
    * The user who owns this session.
    * This establishes a Many-to-One relationship with the `User` entity.
    */
-  @ApiProperty({
-    description: 'The user who owns this session.',
-    type: () => User
-  })
+  @ApiProperty(SessionProps.user)
   @ManyToOne(() => User, (user) => user.sessions, { nullable: false })
   owner: User;
 }
