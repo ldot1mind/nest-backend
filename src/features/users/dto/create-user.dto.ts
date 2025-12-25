@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsOptional, Length } from 'class-validator';
-import { UserStatus } from 'core/common/enums/user-status.enum';
 import { IsPassword } from 'core/validators/decorators/is-password.decorator';
 import { IsUsername } from 'core/validators/decorators/is-username.decorator';
+import { UserStatus } from '../enums/user-status.enum';
 
 /**
  * CreateUserDto defines the structure and validation rules for creating a new user.

@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { UserRole } from 'core/common/enums/user-role.enum';
+import { UserRole } from 'features/users/enums/user-role.enum';
 
 /**
  * Define a constant key to store roles in the metadata

@@ -1,10 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { UserRole } from 'core/common/enums/user-role.enum';
-import { UserStatus } from 'core/common/enums/user-status.enum';
 import { Session } from 'features/sessions/entities/session.entity';
 import { RegistryDatesOrm } from 'infrastructure/database/embedded/registry-dates.embedded';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserStatus } from '../enums/user-status.enum';
+import { UserRole } from '../enums/user-role.enum';
 
 /**
  * The `User` entity represents a user within the system. It contains key properties
