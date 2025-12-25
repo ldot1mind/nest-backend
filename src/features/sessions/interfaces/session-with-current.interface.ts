@@ -1,4 +1,4 @@
-import { Device } from 'core/common/interfaces/device.interface';
+import { Device } from './device.interface';
 
 /**
  * The `SessionWithCurrent` interface represents a session with additional information

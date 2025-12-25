@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { CustomRequest } from 'core/common/interfaces/custom-request.interface';
+import { CustomRequest } from 'infrastructure/http/interfaces/custom-request.interface';
 
 /**
  * Custom decorator to extract the client's IP address from the request.

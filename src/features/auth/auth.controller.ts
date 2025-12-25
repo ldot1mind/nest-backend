@@ -10,7 +10,6 @@ import {
   UseGuards,
   UseInterceptors
 } from '@nestjs/common';
-import { Device } from 'core/common/interfaces/device.interface';
 import { User as UserEntity } from 'features/users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { IpAddress } from './decorators/ipAddress.decorator';
@@ -21,7 +20,6 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { CustomAuth } from 'core/common/interfaces/custom-request.interface';
 import {
   ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
@@ -32,6 +30,8 @@ import {
 } from '@nestjs/swagger';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { Response } from 'express';
+import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
+import { Device } from 'features/sessions/interfaces/device.interface';
 
 /**
  * The `AuthController` handles incoming requests related to authentication.

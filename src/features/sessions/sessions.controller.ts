@@ -2,7 +2,7 @@ import { Controller, Delete, Get, UseGuards } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
 import { JwtAuthGuard } from 'features/auth/guards/jwt-auth.guard';
 import { User } from 'features/auth/decorators/user.decorator';
-import { CustomAuth } from 'core/common/interfaces/custom-request.interface';
+import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
 
 /**
  * SessionsController is responsible for handling session-related HTTP requests.

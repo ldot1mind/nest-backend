@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomAuth } from 'core/common/interfaces/custom-request.interface';
-import { Device } from 'core/common/interfaces/device.interface';
 import { Session } from 'features/sessions/entities/session.entity';
 import { DataSource, Not, Raw, Repository } from 'typeorm';
 import { User } from 'features/users/entities/user.entity';
 import { SessionWithCurrent } from './interfaces/session-with-current.interface';
+import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
+import { Device } from './interfaces/device.interface';
 
 /**
  * SessionsService is responsible for managing user sessions.

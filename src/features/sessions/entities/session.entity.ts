@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Device } from 'core/common/interfaces/device.interface';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from 'features/users/entities/user.entity';
+import { Device } from '../interfaces/device.interface';
 
 /**
  * The `Session` entity represents a user session in the system.

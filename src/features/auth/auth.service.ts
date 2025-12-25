@@ -7,8 +7,6 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { CustomAuth } from 'core/common/interfaces/custom-request.interface';
-import { Device } from 'core/common/interfaces/device.interface';
 import { SessionsService } from 'features/sessions/sessions.service';
 import { User } from 'features/users/entities/user.entity';
 import { UsersService } from 'features/users/users.service';
@@ -16,6 +14,8 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { HashingProvider } from './providers/hashing.provider';
+import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
+import { Device } from 'features/sessions/interfaces/device.interface';
 
 /**
  * The `AuthService` class provides services related to user authentication and session management.

@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Device } from 'core/common/interfaces/device.interface';
+import { Device } from 'features/sessions/interfaces/device.interface';
 
 /**
  * Custom decorator to extract the user's device information from the request.
