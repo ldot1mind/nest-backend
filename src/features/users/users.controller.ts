@@ -9,23 +9,22 @@ import {
   Query,
   UseGuards
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersService } from './users.service';
-import {
-  ApiOperation,
-  ApiParam,
-  ApiQuery,
-  ApiResponse,
-  ApiTags
-} from '@nestjs/swagger';
-import { User } from './entities/user.entity';
-import { RolesGuard } from 'features/auth/guards/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'features/auth/decorators/roles.decorator';
-import { ErrorResponseDto } from 'infrastructure/http/dto/error-response.dto';
+import { RolesGuard } from 'features/auth/guards/roles.guard';
 import { IdDto } from 'infrastructure/http/dto/id.dto';
 import { RemoveDto } from 'infrastructure/http/dto/remove.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRole } from './enums/user-role.enum';
+import { UsersService } from './users.service';
+import {
+  ApiCreateUser,
+  ApiDeleteUser,
+  ApiGetAllUsers,
+  ApiGetUser,
+  ApiUpdateUser
+} from './users.swagger';
 
 /**
  * The `UsersController` is responsible for handling all incoming HTTP requests related to managing user entities.
@@ -50,22 +49,7 @@ export class UsersController {
    * @returns The newly created user entity.
    */
   @Post()
-  @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({
-    status: 201,
-    description: 'User successfully created',
-    type: User
-  })
-  @ApiResponse({
-    status: 422,
-    description: 'Unprocessable Entity - User already exists',
-    type: ErrorResponseDto
-  })
-  @ApiResponse({
-    status: 503,
-    description: 'Service Unavailable - Unable to create user',
-    type: ErrorResponseDto
-  })
+  @ApiCreateUser()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -79,18 +63,7 @@ export class UsersController {
    * @returns An array of all user entities in the system.
    */
   @Get()
-  @ApiOperation({
-    summary: 'Retrieves a list of all users registered in the application'
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Successfully retrieved the list of users'
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal Server Error',
-    type: ErrorResponseDto
-  })
+  @ApiGetAllUsers()
   findAll() {
     return this.usersService.findAll();
   }
@@ -106,25 +79,7 @@ export class UsersController {
    * @returns The found user entity, or an error if not found.
    */
   @Get(':id')
-  @ApiOperation({
-    summary: 'Retrieve a single user by ID'
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
-    required: true,
-    description: 'The unique ID of the user to retrieve'
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Successfully retrieved the user',
-    type: User
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
-    type: ErrorResponseDto
-  })
+  @ApiGetUser()
   findOne(@Param('id') { id }: IdDto) {
     return this.usersService.findOneById(id);
   }
@@ -142,36 +97,7 @@ export class UsersController {
    * @returns The updated user entity or appropriate error messages.
    */
   @Patch(':id')
-  @ApiOperation({
-    summary: 'Update a user by ID',
-    description: 'Updates the user details for the provided ID.'
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
-    required: true,
-    description: 'The ID of the user to update. Must be a valid UUID.'
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User updated successfully',
-    type: UpdateUserDto
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
-    type: ErrorResponseDto
-  })
-  @ApiResponse({
-    status: 422,
-    description: 'Unprocessable Entity - Duplicate data conflict',
-    type: ErrorResponseDto
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal server error',
-    type: ErrorResponseDto
-  })
+  @ApiUpdateUser()
   update(@Param('id') { id }: IdDto, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
@@ -189,69 +115,7 @@ export class UsersController {
    * @returns A message indicating success or failure.
    */
   @Delete(':id')
-  @ApiOperation({
-    summary: 'Delete a user',
-    description: 'Deletes a user by ID, with an option for soft delete.'
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
-    required: true,
-    description: 'The UUID of the user to delete.'
-  })
-  @ApiQuery({
-    name: 'soft',
-    type: Boolean,
-    required: false,
-    description:
-      'Set to true for a soft delete. If omitted or false, a hard delete is performed.'
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User deleted successfully.',
-    schema: {
-      example: {
-        message: 'User with ID {id} deleted successfully',
-        softDeleted: true
-      }
-    }
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found.',
-    schema: {
-      example: {
-        statusCode: 404,
-        message: 'User with ID {id} not found',
-        error: 'Not Found',
-        path: '/users/{id}'
-      }
-    }
-  })
-  @ApiResponse({
-    status: 409,
-    description: 'User cannot be deleted due to related data.',
-    schema: {
-      example: {
-        statusCode: 409,
-        message: 'User cannot be deleted due to related data',
-        error: 'Conflict',
-        path: '/users/{id}'
-      }
-    }
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'An unexpected error occurred during deletion.',
-    schema: {
-      example: {
-        statusCode: 500,
-        message: 'An unexpected error occurred during deletion',
-        error: 'Internal Server Error',
-        path: '/users/{id}'
-      }
-    }
-  })
+  @ApiDeleteUser()
   remove(@Param('id') { id }: IdDto, @Query() { soft }: RemoveDto) {
     return this.usersService.remove(id, soft);
   }
