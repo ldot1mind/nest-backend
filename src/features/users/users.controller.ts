@@ -21,11 +21,11 @@ import {
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { RolesGuard } from 'features/auth/guards/roles.guard';
-import { UserRole } from 'core/common/enums/user-role.enum';
 import { Roles } from 'features/auth/decorators/roles.decorator';
 import { ErrorResponseDto } from 'infrastructure/http/dto/error-response.dto';
 import { IdDto } from 'infrastructure/http/dto/id.dto';
 import { RemoveDto } from 'infrastructure/http/dto/remove.dto';
+import { UserRole } from './enums/user-role.enum';
 
 /**
  * The `UsersController` is responsible for handling all incoming HTTP requests related to managing user entities.
