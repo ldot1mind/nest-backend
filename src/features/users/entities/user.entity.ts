@@ -1,9 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { RegistryDates } from 'core/common/embedded/registry-dates.embedded';
 import { UserRole } from 'core/common/enums/user-role.enum';
 import { UserStatus } from 'core/common/enums/user-status.enum';
 import { Session } from 'features/sessions/entities/session.entity';
+import { RegistryDatesOrm } from 'infrastructure/database/embedded/registry-dates.embedded';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
@@ -119,12 +119,12 @@ export class User {
   @ApiProperty({
     description:
       'Embedded registry dates, including creation, update, and deletion timestamps.',
-    type: () => RegistryDates,
+    type: () => RegistryDatesOrm,
     readOnly: true
   })
-  @Column(() => RegistryDates, { prefix: false })
+  @Column(() => RegistryDatesOrm, { prefix: false })
   @Exclude()
-  registryDates: RegistryDates;
+  registryDates: RegistryDatesOrm;
 
   /**
    * Defines a one-to-many relationship with the `Session` entity.
