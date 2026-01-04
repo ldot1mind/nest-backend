@@ -1,10 +1,11 @@
 // Import necessary modules from NestJS and compression middleware
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import compression from 'compression';
 import { VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import { BusinessExceptionFilter } from 'core/common/filters/business-exception.filter';
+import { AppModule } from './app.module';
 
 /**
  * Define an asynchronous function to bootstrap the application
@@ -98,6 +99,8 @@ async function bootstrap() {
 
   // Enable cookie-parser
   app.use(cookieParser());
+
+  app.useGlobalFilters(new BusinessExceptionFilter());
 
   /**
    * Start listening for incoming requests on port 8080
