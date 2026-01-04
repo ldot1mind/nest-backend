@@ -2,7 +2,13 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { Session } from 'features/sessions/entities/session.entity';
 import { RegistryDatesOrm } from 'infrastructure/database/embedded/registry-dates.embedded';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique
+} from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { UserStatus } from '../enums/user-status.enum';
 import { SwaggerUserProperties as UserProps } from '../users.swagger';
@@ -13,6 +19,8 @@ import { SwaggerUserProperties as UserProps } from '../users.swagger';
  * Many fields are excluded from serialization for security reasons, utilizing the `@Exclude()` decorator.
  */
 @Entity()
+@Unique('users_email_unique', ['email'])
+@Unique('users_username_unique', ['username'])
 export class User {
   /**
    * The unique identifier for the user, auto-generated as a UUID.
