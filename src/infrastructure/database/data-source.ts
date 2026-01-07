@@ -31,7 +31,7 @@ export default new DataSource({
    * The paths to the entity files that TypeORM will use to map database tables to classes.
    * These are the compiled JavaScript or TypeScript files that define the application's entities.
    */
-  entities: ['dist/src/**/*.entity{.ts,.js}'],
+  entities: ['dist/src/features/**/*.entity{.ts,.js}'],
 
   /**
    * The paths to migration files, which contain scripts for database schema changes.
