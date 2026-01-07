@@ -6,6 +6,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import { BusinessExceptionFilter } from 'core/common/filters/business-exception.filter';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from 'core/common/filters/http-exception.filter';
 
 /**
  * Define an asynchronous function to bootstrap the application
@@ -100,7 +101,10 @@ async function bootstrap() {
   // Enable cookie-parser
   app.use(cookieParser());
 
-  app.useGlobalFilters(new BusinessExceptionFilter());
+  app.useGlobalFilters(
+    new BusinessExceptionFilter(),
+    new HttpExceptionFilter()
+  );
 
   /**
    * Start listening for incoming requests on port 8080
