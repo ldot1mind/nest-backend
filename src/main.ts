@@ -4,9 +4,8 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import { BusinessExceptionFilter } from 'core/common/filters/business-exception.filter';
-import { AppModule } from './app.module';
 import { HttpExceptionFilter } from 'core/common/filters/http-exception.filter';
+import { AppModule } from './app.module';
 
 /**
  * Define an asynchronous function to bootstrap the application
@@ -101,10 +100,7 @@ async function bootstrap() {
   // Enable cookie-parser
   app.use(cookieParser());
 
-  app.useGlobalFilters(
-    new BusinessExceptionFilter(),
-    new HttpExceptionFilter()
-  );
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   /**
    * Start listening for incoming requests on port 8080
