@@ -6,6 +6,7 @@ import {
   HttpStatus
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ErrorResponseDto } from 'infrastructure/http/dto/error-response.dto';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -16,24 +17,39 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const status = exception.getStatus();
     const response = exception.getResponse();
+    const isDev = process.env.NODE_ENV !== 'production';
+
+    // set error
+    const error = HttpStatus[status]
+      .replace('_', ' ')
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+
+    let details: string | undefined;
+
+    if (isDev && exception instanceof Error) {
+      const stackLine = exception.stack
+        ?.split('\n')
+        .find((line) => line.includes('.ts') || line.includes('.js'));
+
+      details = stackLine?.trim();
+    }
 
     const message =
       typeof response === 'string'
         ? response
         : ((response as any).message ?? 'Error');
 
-    res.status(status).json({
+    const payload: ErrorResponseDto = {
       statusCode: status,
       message,
-      error: HttpStatus[status]
-        .replace('_', ' ')
-        .split(' ')
-        .map(
-          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        )
-        .join(' '),
+      error,
+      path: req.url,
       timestamp: new Date().toISOString(),
-      path: req.url
-    });
+      ...(isDev && details ? { details } : {})
+    };
+
+    res.status(status).json(payload);
   }
 }

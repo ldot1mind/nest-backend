@@ -1,4 +1,8 @@
-import { ExecutionContext, Injectable } from '@nestjs/common'; // Import necessary decorators and types from NestJS
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException
+} from '@nestjs/common'; // Import necessary decorators and types from NestJS
 import { Reflector } from '@nestjs/core'; // Import Reflector to access metadata
 import { AuthGuard } from '@nestjs/passport'; // Import AuthGuard for Passport authentication
 import { IS_PUBLIC_KEY } from 'features/auth/decorators/public.decorator'; // Import the public key metadata constant
@@ -60,5 +64,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
      * validate the JWT token and ensure the user is authenticated.
      */
     return super.canActivate(context);
+  }
+
+  handleRequest(err, user) {
+    if (err || !user) {
+      throw new UnauthorizedException('invalid token');
+    }
+
+    return user;
   }
 }

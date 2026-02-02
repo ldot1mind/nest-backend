@@ -3,10 +3,10 @@ import {
   Injectable,
   NestMiddleware
 } from '@nestjs/common';
-import { LoginUserDto } from 'features/auth/dto/login-user.dto';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
+import { LoginUserDto } from 'features/auth/dto/login-user.dto';
 
 /**
  * The `LoginValidationMiddleware` class is a NestJS middleware that validates incoming login requests.
