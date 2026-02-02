@@ -1,9 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from 'features/users/users.module';
 import { Session } from './entities/session.entity';
 import { SessionsController } from './sessions.controller';
 import { SessionsService } from './sessions.service';
-import { UsersModule } from 'features/users/users.module';
 
 /**
  * SessionsModule is responsible for managing session-related logic.

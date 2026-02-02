@@ -1,28 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Session } from 'features/sessions/entities/session.entity';
-import { DataSource, Not, Raw, Repository } from 'typeorm';
 import { User } from 'features/users/entities/user.entity';
-import { SessionWithCurrent } from './interfaces/session-with-current.interface';
 import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
+import { DataSource, Not, Raw } from 'typeorm';
 import { Device } from './interfaces/device.interface';
+import { SessionWithCurrent } from './interfaces/session-with-current.interface';
+import { ISessionsService } from './interfaces/sessions.interface';
 
 /**
  * SessionsService is responsible for managing user sessions.
  * It provides methods to create, validate, find, and remove sessions.
  */
 @Injectable()
-export class SessionsService {
+export class SessionsService implements ISessionsService {
   /**
    * Constructor for SessionsService.
    * @param dataSource - Provides access to the database.
    * @param sessionRepository - Repository for Session entity.
    */
-  constructor(
-    private readonly dataSource: DataSource,
-    @InjectRepository(Session)
-    private readonly sessionRepository: Repository<Session>
-  ) {}
+  constructor(private readonly dataSource: DataSource) {}
 
   /**
    * Creates a new session for a user.
@@ -38,7 +34,7 @@ export class SessionsService {
     ip: string,
     device: Device
   ): Promise<Session> {
-    const session = this.sessionRepository.create({
+    const session = this.dataSource.getRepository(Session).create({
       owner: {
         id: userId
       },
@@ -48,7 +44,7 @@ export class SessionsService {
       expiryDate: new Date(new Date().setMilliseconds(31 * 24 * 60 * 60 * 1000))
     });
 
-    return await this.sessionRepository.save(session);
+    return await this.dataSource.getRepository(Session).save(session);
   }
 
   /**
@@ -81,7 +77,7 @@ export class SessionsService {
     user: { id },
     session: { token, ip, expiryDate, device }
   }: CustomAuth): Promise<SessionWithCurrent[]> {
-    const sessions = await this.sessionRepository.find({
+    const sessions = await this.dataSource.getRepository(Session).find({
       where: {
         owner: { id },
         token: Not(token)
@@ -105,12 +101,12 @@ export class SessionsService {
    * @param token - Token of the current session, which should be excluded.
    */
   async remove({ id }: User, token: string): Promise<void> {
-    const sessions = await this.sessionRepository.find({
+    const sessions = await this.dataSource.getRepository(Session).find({
       where: {
         owner: { id },
         token: Not(token)
       }
     });
-    await this.sessionRepository.remove(sessions);
+    await this.dataSource.getRepository(Session).remove(sessions);
   }
 }
