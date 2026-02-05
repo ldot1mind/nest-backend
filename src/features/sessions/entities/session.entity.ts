@@ -1,18 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'features/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Device } from '../interfaces/device.interface';
+import { IDevice } from '../interfaces/device.interface';
 import { SwaggerSessionProperties as SessionProps } from '../sessions.swagger';
 
-/**
- * The `Session` entity represents a user session in the system.
- * It stores information about a user's session, including the session's unique token,
- * the device used to initiate the session, the user's IP address, and the session's expiration date.
- *
- * The `Session` entity is linked to a `User` entity via a Many-to-One relationship,
- * indicating that a user can have multiple sessions, but each session belongs to one user.
- * This entity is primarily used to track and manage user sessions for authentication purposes.
- */
 @Entity()
 export class Session {
   /**
@@ -37,7 +28,7 @@ export class Session {
    */
   @ApiProperty(SessionProps.device)
   @Column({ type: 'json' })
-  device: Device;
+  device: IDevice;
 
   /**
    * The IP address from which the session was initiated.

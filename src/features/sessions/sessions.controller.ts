@@ -4,10 +4,6 @@ import { JwtAuthGuard } from 'features/auth/guards/jwt-auth.guard';
 import { User } from 'features/auth/decorators/user.decorator';
 import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
 
-/**
- * SessionsController is responsible for handling session-related HTTP requests.
- * This includes routes related to session creation, validation, and deletion.
- */
 @Controller('sessions')
 @UseGuards(JwtAuthGuard)
 export class SessionsController {
