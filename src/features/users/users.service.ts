@@ -1,5 +1,4 @@
 import {
-  ConflictException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException
@@ -29,7 +28,7 @@ export class UsersService implements IUsersService {
     await this.userRepo.update({ id: userid }, { password: hashPassword });
   }
 
-  async register(createUserDto: CreateUserDto) {
+  async register(createUserDto: CreateUserDto): Promise<void> {
     try {
       const user = this.userRepo.create(createUserDto);
       await this.userRepo.save(user);
@@ -38,17 +37,17 @@ export class UsersService implements IUsersService {
     }
   }
 
-  async list() {
+  async list(): Promise<User[]> {
     return this.userRepo.find();
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<User> {
     const user = await this.userRepo.findOneBy({ id });
     if (!user) throw new NotFoundException();
     return user;
   }
 
-  async updateProfile(id: string, updateUserDto: UpdateUserDto) {
+  async updateProfile(id: string, updateUserDto: UpdateUserDto): Promise<void> {
     const existingUser = await this.findById(id);
     try {
       if (existingUser) await this.userRepo.update({ id }, updateUserDto);
@@ -57,26 +56,9 @@ export class UsersService implements IUsersService {
     }
   }
 
-  async hardDelete(userId: string): Promise<void> {
-    try {
-      const user = await this.findById(userId);
-      await this.userRepo.remove(user);
-    } catch (error: any) {
-      if (error.code === '23503')
-        throw new ConflictException('user is referenced elsewhere');
-      throw error;
-    }
-  }
-
-  async softDelete(userId: string): Promise<void> {
-    try {
-      const user = await this.findById(userId);
-      await this.userRepo.softRemove(user);
-    } catch (error: any) {
-      if (error.code === '23503')
-        throw new ConflictException('user is referenced elsewhere');
-      throw error;
-    }
+  async requestAccountDeletion(userId: string): Promise<void> {
+    const user = await this.findById(userId);
+    await this.userRepo.softRemove(user);
   }
 
   private handleUniqueConstraintError(error: any) {

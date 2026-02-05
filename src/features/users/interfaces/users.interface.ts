@@ -8,6 +8,5 @@ export interface IUsersService {
   findByIdentifierForAuth(identifier: string): Promise<User | null>;
   updateProfile(userId: string, updateUserDto: UpdateUserDto): Promise<void>;
   setPassword(userid: string, hashPassword: string): Promise<void>;
-  hardDelete(userId: string): Promise<void>;
-  softDelete(userId: string): Promise<void>;
+  requestAccountDeletion(userId: string): Promise<void>;
 }

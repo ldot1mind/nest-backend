@@ -50,6 +50,6 @@ export class UsersController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiDeleteAccount()
   deleteAccount(@User('user') user: UserEntity) {
-    return this.usersService.softDelete(user.id);
+    return this.usersService.requestAccountDeletion(user.id);
   }
 }
