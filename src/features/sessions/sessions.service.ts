@@ -10,6 +10,7 @@ import { ISessionsService } from './interfaces/sessions.interface';
 @Injectable()
 export class SessionsService implements ISessionsService {
   constructor(private readonly dataSource: DataSource) {}
+
   private get sessionRepo(): Repository<Session> {
     return this.dataSource.getRepository(Session);
   }
