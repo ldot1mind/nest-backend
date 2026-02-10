@@ -1,29 +1,25 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
   UseInterceptors
 } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-  ApiUnauthorizedResponse
-} from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { IDevice } from 'features/sessions/interfaces/device.interface';
 import { CustomAuth } from 'infrastructure/http/interfaces/custom-request.interface';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
 import { AuthService } from './auth.service';
+import {
+  ApiChangePassword,
+  ApiLoginUser,
+  ApiRegisterUser
+} from './auth.swagger';
 import { IpAddress } from './decorators/ipAddress.decorator';
 import { Public } from './decorators/public.decorator';
 import { User } from './decorators/user.decorator';
 import { UserAgent } from './decorators/userAgent.decorator';
-import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { AuthCookieInterceptor } from './interceptors/auth-cookie.interceptor';
@@ -35,19 +31,7 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  @UseInterceptors(ClassSerializerInterceptor)
-  @ApiOperation({ summary: 'Register a new user' })
-  @ApiResponse({
-    status: 201,
-    description: 'User successfully registered',
-    type: RegisterUserDto
-  })
-  @ApiBadRequestResponse({
-    description: 'Invalid input data'
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'Unexpected error occurred'
-  })
+  @ApiRegisterUser()
   signUpUser(@Body() registerUserDto: RegisterUserDto) {
     return this.authService.registerUser(registerUserDto);
   }
@@ -56,15 +40,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(AuthCookieInterceptor)
-  @ApiOperation({ summary: 'User login' })
-  @ApiResponse({
-    status: 200,
-    description: 'Successfully logged in',
-    type: LoginResponseDto
-  })
-  @ApiBadRequestResponse({
-    description: 'Invalid credentials'
-  })
+  @ApiLoginUser()
   async signInUser(
     @Body() loginUserDto: LoginUserDto,
     @IpAddress() ip: string,
@@ -75,27 +51,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('change-password')
-  @ApiOperation({
-    summary: 'Change user password',
-    description:
-      'This endpoint allows the user to change their password. The current password must be provided for validation.'
-  })
-  @ApiResponse({
-    status: 204,
-    description: 'Password changed successfully'
-  })
-  @ApiBadRequestResponse({
-    description:
-      'Invalid input data, including an incorrect current password or other validation errors'
-  })
-  @ApiUnauthorizedResponse({
-    description:
-      'Unauthorized: User must be authenticated to change the password'
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal server error'
-  })
+  @ApiChangePassword()
   changePassword(
     @User() authData: CustomAuth,
     @Body() changePasswordDto: ChangePasswordDto
