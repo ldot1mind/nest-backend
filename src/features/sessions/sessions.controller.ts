@@ -1,7 +1,12 @@
-import { Controller, Delete, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { User } from '@features/auth/decorators/user.decorator';
 import { CustomAuth } from '@infrastructure/http/interfaces/custom-request.interface';
+import { Controller, Delete, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
+import {
+  ApiGetSessions,
+  ApiRevokeCurrentSession,
+  ApiTerminateOtherSessions
+} from './sessions.swagger';
 
 @Controller({
   path: 'sessions',
@@ -12,19 +17,22 @@ export class SessionsController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ApiGetSessions()
   getAll(@User() customAuth: CustomAuth) {
     return this.sessionsService.list(customAuth);
   }
 
   @Delete()
   @HttpCode(HttpStatus.NO_CONTENT)
-  evoke(@User() { user, session }: CustomAuth) {
+  @ApiRevokeCurrentSession()
+  revoke(@User() { user, session }: CustomAuth) {
     return this.sessionsService.revoke(user, session.token);
   }
 
   @Delete('others')
   @HttpCode(HttpStatus.NO_CONTENT)
-  terminateOther(@User() { user, session }: CustomAuth) {
+  @ApiTerminateOtherSessions()
+  terminateOthers(@User() { user, session }: CustomAuth) {
     return this.sessionsService.terminateOthers(user, session.token);
   }
 }
