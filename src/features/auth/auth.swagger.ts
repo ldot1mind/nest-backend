@@ -3,45 +3,57 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse,
-  ApiUnauthorizedResponse
+  ApiCookieAuth
 } from '@nestjs/swagger';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 
-/** Register User Swagger */
-export const ApiRegisterUser = () =>
-  applyDecorators(
-    ApiOperation({ summary: 'Register a new user' }),
+export function ApiRegisterUser() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Register a new user account' }),
     ApiResponse({
       status: 201,
       description: 'User successfully registered',
       type: RegisterUserDto
     }),
-    ApiBadRequestResponse({ description: 'Invalid input data' }),
-    ApiInternalServerErrorResponse({ description: 'Unexpected error occurred' })
+    ApiBadRequestResponse({
+      description: 'Invalid input data'
+    }),
+    ApiInternalServerErrorResponse({
+      description: 'Unexpected server error'
+    })
   );
+}
 
-/** Login User Swagger */
-export const ApiLoginUser = () =>
-  applyDecorators(
-    ApiOperation({ summary: 'User login' }),
+export function ApiLoginUser() {
+  return applyDecorators(
+    ApiOperation({ summary: 'User login with email/username and password' }),
     ApiResponse({
       status: 200,
-      description: 'Successfully logged in',
+      description: 'Successfully logged in, JWT set in HttpOnly cookie',
       type: LoginResponseDto
     }),
-    ApiBadRequestResponse({ description: 'Invalid credentials' }),
-    ApiInternalServerErrorResponse({ description: 'Unexpected error occurred' })
+    ApiBadRequestResponse({
+      description: 'Invalid credentials'
+    }),
+    ApiUnauthorizedResponse({
+      description: 'User credentials are invalid'
+    }),
+    ApiInternalServerErrorResponse({
+      description: 'Unexpected server error'
+    }),
+    ApiCookieAuth()
   );
+}
 
-/** Change Password Swagger */
-export const ApiChangePassword = () =>
-  applyDecorators(
+export function ApiChangePassword() {
+  return applyDecorators(
     ApiOperation({
       summary: 'Change user password',
       description:
-        'This endpoint allows the user to change their password. The current password must be provided for validation.'
+        'Allows an authenticated user to change their password. The current password must be provided for validation.'
     }),
     ApiResponse({
       status: 204,
@@ -49,11 +61,13 @@ export const ApiChangePassword = () =>
     }),
     ApiBadRequestResponse({
       description:
-        'Invalid input data, including an incorrect current password or other validation errors'
+        'Invalid input data, including incorrect current password or validation errors'
     }),
     ApiUnauthorizedResponse({
-      description:
-        'Unauthorized: User must be authenticated to change the password'
+      description: 'Unauthorized: User must be authenticated to change password'
     }),
-    ApiInternalServerErrorResponse({ description: 'Internal server error' })
+    ApiInternalServerErrorResponse({
+      description: 'Unexpected server error'
+    })
   );
+}
