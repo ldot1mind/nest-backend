@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import { Session } from '@features/sessions/entities/session.entity';
 import { User } from '@features/users/entities/user.entity';
 import { CustomAuth } from '@infrastructure/http/interfaces/custom-request.interface';
-import { DataSource, Not, Raw, Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { DataSource, MoreThan, Not, Repository } from 'typeorm';
 import { IDevice } from './interfaces/device.interface';
 import { ISessionWithCurrent } from './interfaces/session-with-current.interface';
 import { ISessionsService } from './interfaces/sessions.interface';
@@ -21,6 +21,7 @@ export class SessionsService implements ISessionsService {
     ip: string,
     device: IDevice
   ): Promise<Session> {
+    const THIRTY_ONE_DAYS = 31 * 24 * 60 * 60 * 1000;
     const session = this.sessionRepo.create({
       owner: {
         id: userId
@@ -28,7 +29,7 @@ export class SessionsService implements ISessionsService {
       ip,
       token,
       device,
-      expiryDate: new Date(new Date().setMilliseconds(31 * 24 * 60 * 60 * 1000))
+      expiryDate: new Date(Date.now() + THIRTY_ONE_DAYS)
     });
 
     return this.sessionRepo.save(session);
@@ -41,7 +42,7 @@ export class SessionsService implements ISessionsService {
         owner: {
           id: userId
         },
-        expiryDate: Raw((alias) => `${alias} > NOW()`)
+        expiryDate: MoreThan(new Date())
       }
     });
   }
@@ -69,22 +70,16 @@ export class SessionsService implements ISessionsService {
   }
 
   async revoke({ id }: User, token: string): Promise<void> {
-    const session = await this.sessionRepo.findOne({
-      where: {
-        owner: { id },
-        token
-      }
+    await this.sessionRepo.delete({
+      owner: { id },
+      token
     });
-    await this.sessionRepo.remove(session);
   }
 
   async terminateOthers({ id }: User, token: string): Promise<void> {
-    const sessions = await this.sessionRepo.find({
-      where: {
-        owner: { id },
-        token: Not(token)
-      }
+    await this.sessionRepo.delete({
+      owner: { id },
+      token: Not(token)
     });
-    await this.sessionRepo.remove(sessions);
   }
 }
