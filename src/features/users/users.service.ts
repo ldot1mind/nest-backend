@@ -48,9 +48,9 @@ export class UsersService implements IUsersService {
   }
 
   async updateProfile(id: string, updateUserDto: UpdateUserDto): Promise<void> {
-    const existingUser = await this.findById(id);
     try {
-      if (existingUser) await this.userRepo.update({ id }, updateUserDto);
+      await this.findById(id);
+      await this.userRepo.update({ id }, updateUserDto);
     } catch (error: any) {
       this.handleUniqueConstraintError(error);
     }
@@ -62,6 +62,7 @@ export class UsersService implements IUsersService {
   }
 
   private handleUniqueConstraintError(error: any) {
+    // PostgreSQL unique constraint violation
     if (error.code === '23505') {
       const detail: string = error.detail ?? '';
 
