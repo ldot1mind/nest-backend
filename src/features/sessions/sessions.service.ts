@@ -1,7 +1,9 @@
+import { JwtPayload } from '@features/auth/interfaces/jwt-payload.interface';
 import { Session } from '@features/sessions/entities/session.entity';
 import { User } from '@features/users/entities/user.entity';
 import { CustomAuth } from '@infrastructure/http/interfaces/custom-request.interface';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { DataSource, MoreThan, Not, Repository } from 'typeorm';
 import { IDevice } from './interfaces/device.interface';
 import { ISessionWithCurrent } from './interfaces/session-with-current.interface';
@@ -9,30 +11,39 @@ import { ISessionsService } from './interfaces/sessions.interface';
 
 @Injectable()
 export class SessionsService implements ISessionsService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly jwtService: JwtService
+  ) {}
 
   private get sessionRepo(): Repository<Session> {
     return this.dataSource.getRepository(Session);
   }
 
-  async issue(
-    userId: string,
-    token: string,
-    ip: string,
-    device: IDevice
-  ): Promise<Session> {
-    const THIRTY_ONE_DAYS = 31 * 24 * 60 * 60 * 1000;
-    const session = this.sessionRepo.create({
-      owner: {
-        id: userId
-      },
-      ip,
-      token,
-      device,
-      expiryDate: new Date(Date.now() + THIRTY_ONE_DAYS)
-    });
+  async issue(userId: string, ip: string, device: IDevice): Promise<string> {
+    return await this.dataSource.transaction(async (manager) => {
+      const sessionRepo = manager.getRepository(Session);
 
-    return this.sessionRepo.save(session);
+      const payload: JwtPayload = { sub: userId };
+      const token = this.jwtService.sign(payload);
+
+      const THIRTY_ONE_DAYS = 31 * 24 * 60 * 60 * 1000;
+
+      const session = sessionRepo.create({
+        owner: { id: userId },
+        ip,
+        device,
+        token,
+        expiryDate: new Date(Date.now() + THIRTY_ONE_DAYS)
+      });
+
+      try {
+        await sessionRepo.save(session);
+      } catch {
+        throw new InternalServerErrorException('Failed to create session');
+      }
+      return token;
+    });
   }
 
   async getActive(userId: string, token: string): Promise<Session | null> {
