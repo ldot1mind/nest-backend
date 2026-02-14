@@ -17,11 +17,42 @@ export class UsersService implements IUsersService {
     return this.dataSource.getRepository(User);
   }
 
+  private findByIdWithSelect(
+    id: string,
+    select: (keyof User)[]
+  ): Promise<User | null> {
+    return this.userRepo.findOne({
+      where: { id },
+      select
+    });
+  }
+
   async findByIdentifierForAuth(identifier: string): Promise<User | null> {
     return this.userRepo.findOne({
       where: [{ email: identifier }, { username: identifier }],
-      select: ['id', 'email', 'name', 'username', 'password', 'role', 'status']
+      select: ['id', 'password', 'status']
     });
+  }
+
+  async findByIdForSessionValidation(userId: string): Promise<User | null> {
+    return this.findByIdWithSelect(userId, [
+      'id',
+      'email',
+      'username',
+      'name',
+      'status',
+      'role'
+    ]);
+  }
+
+  async findByIdWithPassword(userId: string): Promise<User | null> {
+    return this.findByIdWithSelect(userId, ['id', 'password']);
+  }
+
+  async findById(id: string): Promise<User> {
+    const user = await this.findByIdWithSelect(id, ['id']);
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
   async setPassword(userid: string, hashPassword: string): Promise<void> {
@@ -39,12 +70,6 @@ export class UsersService implements IUsersService {
 
   async list(): Promise<User[]> {
     return this.userRepo.find();
-  }
-
-  async findById(id: string): Promise<User> {
-    const user = await this.userRepo.findOneBy({ id });
-    if (!user) throw new NotFoundException();
-    return user;
   }
 
   async updateProfile(id: string, updateUserDto: UpdateUserDto): Promise<void> {
