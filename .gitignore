@@ -59,3 +59,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .env
 
 .eslintcache
+commitlint.config.d.ts
+commitlint.config.js
+commitlint.config.js.map

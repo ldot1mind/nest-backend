@@ -18,7 +18,7 @@
     "paths": {
       "@features/*": ["./src/features/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
-      "@core/*": ["./src/core/*"],
+      "@core/*": ["./src/core/*"]
     },
 
     "incremental": true,
