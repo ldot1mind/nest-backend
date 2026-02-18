@@ -2,29 +2,24 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2021",
-
     "rootDir": "./src",
     "outDir": "./dist",
-
+    "types": ["node", "jest"],
     "declaration": true,
     "sourceMap": true,
-
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-
+    "resolveJsonModule": true,
     "paths": {
       "@features/*": ["./src/features/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@core/*": ["./src/core/*"]
     },
-
     "incremental": true,
     "removeComments": true,
     "skipLibCheck": true,
-
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
