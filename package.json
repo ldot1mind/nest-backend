@@ -28,7 +28,7 @@
     "deprecated": "npx ts-node findDeprecatedFiles.ts"
   },
   "dependencies": {
-    "@faker-js/faker": "5",
+    "@faker-js/faker": "10",
     "@nestjs/common": "^11.1.9",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.9",
